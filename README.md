@@ -19,7 +19,7 @@ python -m pip install -r requirements.txt
 Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work but are not tested.
 
 ## Data Preparation
-Please download and extract files from [google drive](https://drive.google.com/drive/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1evSTtuvphyl1_aSedsEQLA?pwd=wihf).
+Please download and extract files from [Google Drive](https://drive.google.com/drive/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1evSTtuvphyl1_aSedsEQLA?pwd=wihf).
 
 ## Example Usage:
 
@@ -54,10 +54,11 @@ If you think our work is useful, please feel free to cite our [paper](https://ar
   journal={arXiv preprint arXiv:2208.01040},
   year = {2022}
 }
-
+```
 
 ## Contact
 For any question, please feel free to contact us.
+
 ```
 Zhuomin Chai: zhuominchai@whu.edu.cn
 Yuxiang Zhao: yuxiangzhao@stu.pku.edu.cn
