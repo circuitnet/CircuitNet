@@ -22,6 +22,10 @@ models/unet_layers.py
 
 models/unet2plus_generator.py
 
-datasets/drc_dataset.py
+self_tools/*
+
+out/*
 
 datasets/irdrop_dataset.py
+
+models/mavi.py
