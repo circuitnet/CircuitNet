@@ -8,7 +8,7 @@ usage: test.py [--task TASK_NAME]  [--pretrained PRETRAINED_WEIGHTS_PATH]
 ```
 Change the configure to fit your file path and hyper-parameter in [config.py](utils/configs.py).
 
-More information about the dataset can be accessed from our [web page] (https://circuitnet.github.io/).
+More information about the dataset can be accessed from our [web page](https://circuitnet.github.io/).
 
 ## Prerequisites
 
