@@ -26,6 +26,3 @@ self_tools/*
 
 out/*
 
-datasets/irdrop_dataset.py
-
-models/mavi.py
