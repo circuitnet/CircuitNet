@@ -31,7 +31,7 @@ def test():
     model = build_model(arg_dict)
     model = model.cuda()
 
-    # build metrics
+    # Build metrics
     metrics = {k:build_metric(k) for k in arg.eval_metric}
     avg_metrics = {k:0 for k in arg.eval_metric}
 
