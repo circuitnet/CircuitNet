@@ -12,7 +12,7 @@ class Paraser(object):
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('--task', default='congestion_gpdl')
 
-        self.parser.add_argument('--save-path', default='work_dir/irdrop_mavi/')
+        self.parser.add_argument('--save-path', default='work_dir/congestion_gpdl/')
     
         self.parser.add_argument('--pretrained', default=None)
 
@@ -48,7 +48,7 @@ class Paraser(object):
             self.parser.add_argument('--model_type', default='RouteNet')
             self.parser.add_argument('--in_channels', default=9)
             self.parser.add_argument('--out_channels', default=1)
-            self.parser.add_argument('--lr', default=1e-4)
+            self.parser.add_argument('--lr', default=2e-4)
             self.parser.add_argument('--weight_decay', default=1e-4)
             self.parser.add_argument('--loss_type', default='MSELoss')
             self.parser.add_argument('--eval-metric', default=['PSNR', 'SSIM'])

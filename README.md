@@ -35,15 +35,31 @@ python test.py --task congestion_gpdl --pretrained PRETRAINED_WEIGHTS_PATH
 
 #### DRC
 ```python
-python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH
+python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy True
 ```
 
 #### IR Drop
-TODO
+```python
+python test.py --task irdrop_mavi --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy True
+```
 
 
 ### Train
-TODO
+#### Congestion
+```python
+python train.py --task congestion_gpdl --save_path work_dir/congestion_gpdl/
+```
+
+
+#### DRC
+```python
+python train.py --task drc_routenet --save_path work_dir/drc_routenet/
+```
+
+#### IR Drop
+```python
+python train.py --task irdrop_mavi --save_path work_dir/irdrop_mavi/
+```
 
 ## License
 This repository is released under the BSD 3-Clause. license as found in the LICENSE file.
