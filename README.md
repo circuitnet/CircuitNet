@@ -34,7 +34,9 @@ python test.py --task congestion_gpdl --pretrained PRETRAINED_WEIGHTS_PATH
 
 
 #### DRC
-TODO
+```python
+python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH
+```
 
 #### IR Drop
 TODO

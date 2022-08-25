@@ -9,7 +9,7 @@ import numpy as np
 from tqdm import tqdm
 
 from datasets.build_dataset import build_dataset
-from metrics import build_metric
+from metrics import build_metric, build_roc_prc_metric
 from models.build_model import build_model
 from utils.configs import Paraser
 
@@ -33,7 +33,6 @@ def test():
 
     # build metrics
     metrics = {k:build_metric(k) for k in arg.eval_metric}
-
     avg_metrics = {k:0 for k in arg.eval_metric}
 
     count =0
@@ -58,7 +57,14 @@ def test():
             bar.update(1)
     
     for metric, avg_metric in avg_metrics.items():
-        print("===> Avg. {}: {:.4f} dB".format(metric, avg_metric / len(dataset)))
+        print("===> Avg. {}: {:.4f}".format(metric, avg_metric / len(dataset))) 
+
+    # eval roc&prc
+    if arg.threashold:
+        roc_metric, prc_metric = build_roc_prc_metric(**arg_dict)
+
+    print("\n ===> ROC AUC. {:.4f}".format(roc_metric))
+    print("===> PRC AUC. {:.4f}".format(prc_metric))
 
 
 if __name__ == "__main__":
