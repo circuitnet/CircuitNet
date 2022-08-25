@@ -14,6 +14,7 @@ import psutil
 import time
 import csv
 from sklearn.metrics import accuracy_score, roc_curve, confusion_matrix
+from scipy.interpolate import make_interp_spline
 from functools import partial
 from mmcv import scandir
 
@@ -291,21 +292,41 @@ def multi_process_score(out_name=None, threashold=0.0, label_path=None, save_pat
     print('remove temp files')
     os.system(f'rm -rf {temp_path}')
 
+def get_sorted_list(fpr_sum_List,tpr_sum_List):
+    fpr_list = []
+    tpr_list = []
+    for i, j in zip(fpr_sum_List, tpr_sum_List):
+        if i not in fpr_list:
+            fpr_list.append(i)
+            tpr_list.append(j)
+
+    fpr_list.reverse()
+    tpr_list.reverse()
+    fpr_list, tpr_list = zip(*sorted(zip(fpr_list, tpr_list)))
+    return fpr_list, tpr_list
+
 
 def roc_prc():
     tpr_sum_List, fpr_sum_List, precision_sum_List = calculate_all(os.path.join(os.getcwd(), 'out', 'roc_prc.csv'))
 
-    tpr_sum_List_reverse = tpr_sum_List[::-1]
-    fpr_sum_List_reverse = fpr_sum_List[::-1]
-    precision_sum_List_reverse = precision_sum_List[::-1]
+    fpr_list, tpr_list = get_sorted_list(fpr_sum_List,tpr_sum_List)
+    fpr_list = list(fpr_list)
+    fpr_list.extend([1])
+
+    tpr_list = list(tpr_list)
+    tpr_list.extend([1])
 
     roc_numerator = 0
-    for i in range(len(tpr_sum_List_reverse)-1):
-        roc_numerator += (tpr_sum_List_reverse[i]+tpr_sum_List_reverse[i+1])*(fpr_sum_List_reverse[i+1]-fpr_sum_List_reverse[i])/2
-    
+    for i in range(len(tpr_list)-1):
+        roc_numerator += (tpr_list[i]+tpr_list[i+1])*(fpr_list[i+1]-fpr_list[i])/2
+
+    tpr_list, p_list = get_sorted_list(tpr_sum_List, precision_sum_List)
+    x_smooth = np.linspace(0, 1, 25)
+    y_smooth = make_interp_spline(tpr_list, p_list, k=3)(x_smooth)
+
     prc_numerator = 0
-    for i in range(len(tpr_sum_List)-1):
-        prc_numerator += (precision_sum_List_reverse[i]+precision_sum_List_reverse[i+1])*(tpr_sum_List_reverse[i+1]-tpr_sum_List_reverse[i])/2
+    for i in range(len(y_smooth)-1):
+        prc_numerator += (y_smooth[i]+y_smooth[i+1])*(x_smooth[i+1]-x_smooth[i])/2
 
     return roc_numerator, prc_numerator
 
@@ -351,8 +372,12 @@ def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, save_pat
     if ann_file:
         with open(ann_file, 'r') as fin:
             for line in fin:
-                feature, label = line.strip().split(',')
+                if len(line.strip().split(',')) == 2: 
+                    feature, label = line.strip().split(',')
+                else:
+                    label = line.strip().split(',')[-1]
                 break
+
         label_name = label.split('/')[0]
     else:
         raise FileExistsError
