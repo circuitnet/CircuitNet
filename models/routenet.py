@@ -165,7 +165,7 @@ class RouteNet(nn.Module):
             new_dict = OrderedDict()
             weight = torch.load(pretrained, map_location='cpu')['state_dict']
             for k in weight.keys():
-                new_dict[k[10:]] = weight[k]
+                new_dict[k] = weight[k]
             load_state_dict(self, new_dict, strict=strict, logger=None)
         elif pretrained is None:
             self.encoder.init_weights(init_type=self.init_type, init_gain=self.init_gain)
