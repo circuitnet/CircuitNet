@@ -14,14 +14,13 @@ utils/irdrop_report/*
 
 __pycache__/*
 
-train.py
-
 models/unet2plus_3d_generator2.py
 
 models/unet_layers.py
 
 models/unet2plus_generator.py
 
-datasets/drc_dataset.py
+self_tools/*
 
-datasets/irdrop_dataset.py
+out/*
+

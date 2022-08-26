@@ -69,10 +69,10 @@ class conv(nn.Module):
         super(conv, self).__init__()
         self.main = nn.Sequential(
             nn.Conv2d(dim_in, dim_out, kernel_size=kernel_size, stride=stride, padding=padding, bias=bias),
-            nn.InstanceNorm2d(dim_out, affine=True),
+            nn.BatchNorm2d(dim_out),
             nn.LeakyReLU(0.2, inplace=True),
             nn.Conv2d(dim_out, dim_out, kernel_size=kernel_size, stride=stride, padding=padding, bias=bias),
-            nn.InstanceNorm2d(dim_out, affine=True),
+            nn.BatchNorm2d(dim_out),
             nn.LeakyReLU(0.2, inplace=True),
         )
 
@@ -84,7 +84,7 @@ class upconv(nn.Module):
         super(upconv, self).__init__()
         self.main = nn.Sequential(
                 nn.ConvTranspose2d(dim_in, dim_out, 4, 2, 1),
-                nn.InstanceNorm2d(dim_out, affine=True),
+                nn.BatchNorm2d(dim_out),
                 nn.LeakyReLU(0.2, inplace=True),
                 )
 
@@ -96,18 +96,19 @@ class Encoder(nn.Module):
         super(Encoder, self).__init__()
         self.in_dim = in_dim
         self.c1 = conv(in_dim, 32)
-        self.pool1 = nn.MaxPool2d(kernel_size=2,stride=2)
+        self.pool1 = nn.MaxPool2d(kernel_size=2,stride=2)  # 这里先用这个
         self.c2 = conv(32, 64)
-        self.pool2 = nn.MaxPool2d(kernel_size=2,stride=2)
+        self.pool2 = nn.MaxPool2d(kernel_size=2,stride=2)  # 这里先用这个
         self.c3 = nn.Sequential(
                 nn.Conv2d(64, out_dim, 3, 1, 1),
                 nn.BatchNorm2d(out_dim),
                 nn.Tanh()
                 )
 
-    def init_weights(self):
-        generation_init_weights(self)
-        
+    def init_weights(self, init_type, init_gain):
+        """Initialize the weights."""
+        generation_init_weights(
+                self, init_type=init_type, init_gain=init_gain)
 
     def forward(self, input):
         h1 = self.c1(input)
@@ -115,7 +116,7 @@ class Encoder(nn.Module):
         h3 = self.c2(h2)
         h4 = self.pool2(h3)
         h5 = self.c3(h4)
-        return h5, h2  # shortpath from 2->7
+        return h5, h2
 
 
 class Decoder(nn.Module):
@@ -130,8 +131,10 @@ class Decoder(nn.Module):
                 nn.Sigmoid()
                 )
 
-    def init_weights(self):
-        generation_init_weights(self)
+    def init_weights(self, init_type, init_gain):
+        generation_init_weights(
+                self, init_type=init_type, init_gain=init_gain)
+
 
     def forward(self, input):
         feature, skip = input
@@ -143,13 +146,13 @@ class Decoder(nn.Module):
         return output
 
 
-class GPDL(nn.Module):
+
+class RouteNet(nn.Module):
     def __init__(self,
                  in_channels=3,
-                 out_channels=2,
+                 out_channels=1,
                  **kwargs):
         super().__init__()
-
         self.encoder = Encoder(in_dim=in_channels)
         self.decoder = Decoder(out_dim=out_channels)
 
@@ -157,7 +160,7 @@ class GPDL(nn.Module):
         x = self.encoder(x)
         return self.decoder(x)
 
-    def init_weights(self, pretrained=None, pretrained_transfer=None, strict=False, **kwargs):
+    def init_weights(self, pretrained=None, strict=True, **kwargs):
         if isinstance(pretrained, str):
             new_dict = OrderedDict()
             weight = torch.load(pretrained, map_location='cpu')['state_dict']
@@ -165,10 +168,8 @@ class GPDL(nn.Module):
                 new_dict[k] = weight[k]
             load_state_dict(self, new_dict, strict=strict, logger=None)
         elif pretrained is None:
-            generation_init_weights(
-                self, init_type=self.init_type, init_gain=self.init_gain)
+            self.encoder.init_weights(init_type=self.init_type, init_gain=self.init_gain)
+            self.decoder.init_weights(init_type=self.init_type, init_gain=self.init_gain)
         else:
             raise TypeError("'pretrained' must be a str or None. "
                             f'But received {type(pretrained)}.')
-
-

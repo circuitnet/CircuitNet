@@ -3,19 +3,13 @@
 import os.path as osp
 import copy
 import numpy as np
-from torchvision.transforms import Compose
 
-class CongestionDataset(object):
-    def __init__(self, ann_file, dataroot, pipeline=None, test_mode=False, **kwargs):
+class DRCDataset(object):
+    def __init__(self, ann_file, dataroot, test_mode=None, **kwargs):
         super().__init__()
         self.ann_file = ann_file
         self.dataroot = dataroot
         self.test_mode = test_mode
-        if pipeline:
-            self.pipeline = Compose(pipeline)
-        else:
-            self.pipeline = None
-
         self.data_infos = self.load_annotations()
 
     def load_annotations(self):
@@ -31,15 +25,11 @@ class CongestionDataset(object):
 
     def prepare_data(self, idx):
         results = copy.deepcopy(self.data_infos[idx])
-        results['feature'] = np.load(results['feature_path'])
-        results['label'] = np.load(results['label_path'])
 
-        results = self.pipeline(results) if self.pipeline else results
-        
-        feature =  results['feature'].transpose(2, 0, 1).astype(np.float32)
-        label = np.expand_dims(results['label'], axis=0).astype(np.float32)
+        feature = np.load(results['feature_path']).transpose(2, 0, 1).astype(np.float32)
+        label = np.load(results['label_path']).transpose(2, 0, 1).astype(np.float32)
 
-        return feature, label, results['label']
+        return feature, label, results['label_path']
 
     def __len__(self):
         return len(self.data_infos)

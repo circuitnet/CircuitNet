@@ -2,13 +2,20 @@
 
 ## Overview 
 This repository is intended to hosts codes and demos for CircuitNet, we hope this codebase would be helpful for users to reproduce exiting methods. Pretrianed weights will be available soon.
+<p align="center">
+  <img src="assets/overall_structure.png.png" height=300>
+</p>
 
 ```
 usage: test.py [--task TASK_NAME]  [--pretrained PRETRAINED_WEIGHTS_PATH] 
 ```
 Change the configure to fit your file path and hyper-parameter in [config.py](utils/configs.py).
 
+<<<<<<< HEAD
 More information about the dataset can be accessed from our [web page] (https://circuitnet.github.io/).
+=======
+More information about the dataset can be accessed from our [web page](https://circuitnet.github.io/).
+>>>>>>> 3a2f77599a7dca45139b97003c3255bb05158b40
 
 ## Prerequisites
 
@@ -21,7 +28,7 @@ python -m pip install -r requirements.txt
 Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work but are not tested.
 
 ## Data Preparation
-Please download and extract files from [Google Drive](https://drive.google.com/drive/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1evSTtuvphyl1_aSedsEQLA?pwd=wihf).
+Please follow the instructions in [the quick start page](https://circuitnet.github.io/intro/quickstart.html) to setup the CircuitNet dataset for specific task(Congestion/DRC/IR Drop).
 
 ## Example Usage:
 
@@ -34,14 +41,32 @@ python test.py --task congestion_gpdl --pretrained PRETRAINED_WEIGHTS_PATH
 
 
 #### DRC
-TODO
+```python
+python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy True
+```
 
 #### IR Drop
-TODO
+```python
+python test.py --task irdrop_mavi --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy True
+```
 
 
 ### Train
-TODO
+#### Congestion
+```python
+python train.py --task congestion_gpdl --save_path work_dir/congestion_gpdl/
+```
+
+
+#### DRC
+```python
+python train.py --task drc_routenet --save_path work_dir/drc_routenet/
+```
+
+#### IR Drop
+```python
+python train.py --task irdrop_mavi --save_path work_dir/irdrop_mavi/
+```
 
 ## License
 This repository is released under the BSD 3-Clause. license as found in the LICENSE file.
