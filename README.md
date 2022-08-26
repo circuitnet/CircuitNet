@@ -2,6 +2,9 @@
 
 ## Overview 
 This repository is intended to hosts codes and demos for CircuitNet, we hope this codebase would be helpful for users to reproduce exiting methods. Pretrianed weights will be available soon.
+<p align="center">
+  <img src="assets/overall_structure.png.png" height=300>
+</p>
 
 ```
 usage: test.py [--task TASK_NAME]  [--pretrained PRETRAINED_WEIGHTS_PATH] 
