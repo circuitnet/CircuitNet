@@ -350,6 +350,7 @@ def tensor2img(tensor, out_type=np.uint8, min_max=(0, 1)):
 
         if n_dim == 3:
             img_np = _tensor.numpy()
+            img_np = np.transpose(img_np[:, :, :], (2, 0, 1))
             img_np = np.transpose(img_np[[2, 1, 0], :, :], (1, 2, 0))
         elif n_dim == 2:
             img_np = _tensor.numpy()[..., None]
