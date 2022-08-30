@@ -165,8 +165,7 @@ class GPDL(nn.Module):
                 new_dict[k] = weight[k]
             load_state_dict(self, new_dict, strict=strict, logger=None)
         elif pretrained is None:
-            generation_init_weights(
-                self, init_type=self.init_type, init_gain=self.init_gain)
+            generation_init_weights(self)
         else:
             raise TypeError("'pretrained' must be a str or None. "
                             f'But received {type(pretrained)}.')

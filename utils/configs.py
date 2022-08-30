@@ -11,18 +11,17 @@ class Paraser(object):
     def __init__(self) -> None:
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('--task', default='congestion_gpdl')
-        self.parser.add_argument('--save-path', default='work_dir/congestion_gpdl/')
+        self.parser.add_argument('--save_path', default='work_dir/congestion_gpdl/')
         self.parser.add_argument('--pretrained', default=None)
         self.parser.add_argument('--max_iters', default=200000)
-        self.parser.add_argument('--save_as_npy', default=False, type=bool)
-        self.parser.add_argument('--ann_file_test', default='./files/congestion/congestion_val.csv')
+        self.parser.add_argument('--save_as_npy', action='store_true')
         self.get_remainder()
         
     def get_remainder(self):
         if self.parser.parse_args().task == 'congestion_gpdl':
-            self.parser.add_argument('--dataroot', default='./datasets/')
+            self.parser.add_argument('--dataroot', default='')
             self.parser.add_argument('--ann_file_train', default='./files/congestion/congestion_train.csv')
-
+            self.parser.add_argument('--ann_file_test', default='./files/congestion/congestion_val.csv')
             self.parser.add_argument('--dataset_type', default='CongestionDataset')
             self.parser.add_argument('--batch_size', default=16)
             self.parser.add_argument('--aug_pipeline', default=['Flip', 'Rotation'])
@@ -36,9 +35,9 @@ class Paraser(object):
             self.parser.add_argument('--eval-metric', default=['PSNR', 'SSIM', 'EMD', 'NRMS'])
 
         elif self.parser.parse_args().task == 'drc_routenet':
-            self.parser.add_argument('--dataroot', default='./datasets/')
-            self.parser.add_argument('--ann_file_train', default='./files/drc_data/drc_train.csv')
-            self.parser.add_argument('--ann_file_test', default='./files/drc_data/drc_val.csv')
+            self.parser.add_argument('--dataroot', default='')
+            self.parser.add_argument('--ann_file_train', default='./files/DRC/DRC_train.csv')
+            self.parser.add_argument('--ann_file_test', default='./files/DRC/DRC_val.csv')
             self.parser.add_argument('--dataset_type', default='DRCDataset')
             self.parser.add_argument('--batch_size', default=8)
             self.parser.add_argument('--aug_pipeline', default=['Flip', 'Rotation'])
@@ -54,7 +53,7 @@ class Paraser(object):
 
 
         elif self.parser.parse_args().task == 'irdrop_mavi':
-            self.parser.add_argument('--dataroot', default='./datasets/')
+            self.parser.add_argument('--dataroot', default='')
             self.parser.add_argument('--ann_file_train', default='/files/irdrop/irdrop_train.csv')
             self.parser.add_argument('--ann_file_test', default='./files/irdrop/irdrop_val.csv')
             self.parser.add_argument('--dataset_type', default='IRDropDataset')

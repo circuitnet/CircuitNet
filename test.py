@@ -39,7 +39,6 @@ def test():
     with tqdm(total=len(dataset)) as bar:
         for feature, label, label_path in dataset:
             input, target = feature.cuda(), label.cuda()
-
             prediction = model(input)
             for metric, metric_func in metrics.items():
                 avg_metrics[metric] += metric_func(target.cpu(), prediction.squeeze(1).cpu())
@@ -60,11 +59,10 @@ def test():
         print("===> Avg. {}: {:.4f}".format(metric, avg_metric / len(dataset))) 
 
     # eval roc&prc
-    if arg.threashold:
+    if arg.save_as_npy:
         roc_metric, prc_metric = build_roc_prc_metric(**arg_dict)
-
-    print("\n ===> ROC AUC. {:.4f}".format(roc_metric))
-    print("===> PRC AUC. {:.4f}".format(prc_metric))
+        print("\n ===> ROC AUC. {:.4f}".format(roc_metric))
+        print("===> PRC AUC. {:.4f}".format(prc_metric))
 
 
 if __name__ == "__main__":
