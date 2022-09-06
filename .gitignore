@@ -4,8 +4,6 @@ work_dir/*
 
 *.pyc
 
-*.csv
-
 utils/drc_report/*
 
 utils/irdrop_report/*
@@ -26,3 +24,6 @@ out/*
 
 gen_anno/*
 
+*.tar
+
+*.tar.gz

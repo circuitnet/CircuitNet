@@ -169,5 +169,3 @@ class GPDL(nn.Module):
         else:
             raise TypeError("'pretrained' must be a str or None. "
                             f'But received {type(pretrained)}.')
-
-
