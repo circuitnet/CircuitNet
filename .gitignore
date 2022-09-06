@@ -24,3 +24,5 @@ self_tools/*
 
 out/*
 
+gen_anno/*
+

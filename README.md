@@ -18,7 +18,7 @@ More information about the dataset can be accessed from our [web page](https://c
 All dependencies can be installed using pip:
 
 ```sh
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work but are not tested.
@@ -38,12 +38,12 @@ python test.py --task congestion_gpdl --pretrained PRETRAINED_WEIGHTS_PATH
 
 #### DRC
 ```python
-python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy True
+python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy
 ```
 
 #### IR Drop
 ```python
-python test.py --task irdrop_mavi --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy True
+python test.py --task irdrop_mavi --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy
 ```
 
 
@@ -69,12 +69,12 @@ This repository is released under the BSD 3-Clause. license as found in the LICE
 
 
 ## Citation
-If you think our work is useful, please feel free to cite our [paper](https://arxiv.org/abs/2208.01040v2) 😆 :
+If you think our work is useful, please feel free to cite our [paper](https://www.sciengine.com/SCIS/doi/10.1007/s11432-022-3571-8) 😆 :
 ```
 @article{chai2022circuitnet,
   title = {CircuitNet: An Open-Source Dataset for Machine Learning Applications in Electronic Design Automation (EDA)},
   author = {Chai, Zhuomin and Zhao, Yuxiang and Lin, Yibo and Liu, Wei and Wang, Runsheng and Huang, Ru},
-  journal={arXiv preprint arXiv:2208.01040},
+  journal={SCIENCE CHINA Information Sciences},
   year = {2022}
 }
 ```
