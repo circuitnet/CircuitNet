@@ -105,10 +105,9 @@ class Encoder(nn.Module):
                 nn.Tanh()
                 )
 
-    def init_weights(self, init_type, init_gain):
+    def init_weights(self):
         """Initialize the weights."""
-        generation_init_weights(
-                self, init_type=init_type, init_gain=init_gain)
+        generation_init_weights(self)
 
     def forward(self, input):
         h1 = self.c1(input)
@@ -131,9 +130,8 @@ class Decoder(nn.Module):
                 nn.Sigmoid()
                 )
 
-    def init_weights(self, init_type, init_gain):
-        generation_init_weights(
-                self, init_type=init_type, init_gain=init_gain)
+    def init_weights(self):
+        generation_init_weights(self)
 
 
     def forward(self, input):
@@ -168,8 +166,8 @@ class RouteNet(nn.Module):
                 new_dict[k] = weight[k]
             load_state_dict(self, new_dict, strict=strict, logger=None)
         elif pretrained is None:
-            self.encoder.init_weights(init_type=self.init_type, init_gain=self.init_gain)
-            self.decoder.init_weights(init_type=self.init_type, init_gain=self.init_gain)
+            self.encoder.init_weights()
+            self.decoder.init_weights()
         else:
             raise TypeError("'pretrained' must be a str or None. "
                             f'But received {type(pretrained)}.')

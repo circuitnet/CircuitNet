@@ -255,7 +255,7 @@ def calculated_score(threshold_idx=None,
 def multi_process_score(out_name=None, threashold=0.0, label_path=None, save_path=None):
     uid = str(uuid.uuid4())
     suid = ''.join(uid.split('-'))
-    temp_path = f'/dev/shm/cong/{suid}'
+    temp_path = f'./{suid}'
 
     psutil.cpu_percent(None)
     time.sleep(0.5)
@@ -350,7 +350,8 @@ def tensor2img(tensor, out_type=np.uint8, min_max=(0, 1)):
 
         if n_dim == 3:
             img_np = _tensor.numpy()
-            img_np = np.transpose(img_np[[2, 1, 0], :, :], (1, 2, 0))
+            img_np = np.transpose(img_np[:, :, :], (2, 0, 1))
+            # img_np = np.transpose(img_np[[2, 1, 0], :, :], (1, 2, 0))
         elif n_dim == 2:
             img_np = _tensor.numpy()[..., None]
         else:
@@ -381,7 +382,7 @@ def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, save_pat
         label_name = label.split('/')[0]
     else:
         raise FileExistsError
-
+    print(os.path.join(dataroot, label_name))
     multi_process_score(out_name='roc_prc.csv', threashold=threashold, label_path=os.path.join(dataroot, label_name), save_path=save_path)
     
     

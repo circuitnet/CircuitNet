@@ -174,6 +174,7 @@ class MAVI(nn.Module):
         x = self.up3(x, x1.mean(dim=2))
         logits = self.outc(x)
 
+        # logits = x_in.squeeze(1)*logits
         logits = x_in.squeeze(1)*logits
         return torch.sum(logits, dim=1)
 

@@ -37,7 +37,8 @@ class CongestionDataset(object):
         results = self.pipeline(results) if self.pipeline else results
         
         feature =  results['feature'].transpose(2, 0, 1).astype(np.float32)
-        label = np.expand_dims(results['label'], axis=0).astype(np.float32)
+        label = results['label'].transpose(2, 0, 1).astype(np.float32)
+        # label = np.expand_dims(results['label'], axis=0).astype(np.float32)
 
         return feature, label, results['label']
 
