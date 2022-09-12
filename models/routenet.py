@@ -169,4 +169,4 @@ class RouteNet(nn.Module):
             self.encoder.init_weights()
             self.decoder.init_weights()
         else:
-            raise TypeError("'pretrained' must be a str or None. "
+            raise TypeError("'pretrained' must be a str or None. ")
