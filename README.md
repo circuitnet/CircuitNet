@@ -16,11 +16,13 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 ## Prerequisites
 
-All dependencies can be installed using pip:
+Dependencies can be installed using pip:
 
 ```sh
 pip install -r requirements.txt
 ```
+
+PyTorch is not included in requirement.txt, and you could intall it follow the instruction in [PyTorch homepage](https://pytorch.org/).
 
 Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work but are not tested.
 
