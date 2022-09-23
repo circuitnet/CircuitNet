@@ -86,7 +86,11 @@ If you think our work is useful, please feel free to cite our [paper](https://ww
 @article{chai2022circuitnet,
     title = {CircuitNet: An Open-Source Dataset for Machine Learning Applications in Electronic Design Automation (EDA)},
     author = {Chai, Zhuomin and Zhao, Yuxiang and Lin, Yibo and Liu, Wei and Wang, Runsheng and Huang, Ru},
-    journal= {SCIENCE CHINA Information Sciences, 2022, vol.65, 227401},
+    journal= {SCIENCE CHINA Information Sciences},
+    volume={65},
+    number = "12",
+    pages={227401-},
+    year = {2022}
 }
 ```
 
