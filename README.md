@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository is intended to hosts codes and demos for CircuitNet, we hope this codebase would be helpful for users to reproduce exiting methods. More information about the dataset can be accessed from our [web page](https://circuitnet.github.io/).
+This repository is intended to hosts codes and demos for CircuitNet, we hope this codebase would be helpful for users to reproduce exiting methods. More information about the dataset can be accessed from our web page [https://circuitnet.github.io/](https://circuitnet.github.io/).
 
 <p align="center">
   <img src="assets/overall_structure.png" height=300>
@@ -12,7 +12,7 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 ## New Features/Updates
 
-* Sep 6, 2022. Pretrained weights are available in [checkpoint](checkpoint).
+* Sep 6, 2022. Pretrained weights are available in [checkpoint](checkpoint) dir.
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ Dependencies can be installed using pip:
 pip install -r requirements.txt
 ```
 
-PyTorch is not included in requirement.txt, and you could intall it follow the instruction in [PyTorch homepage](https://pytorch.org/).
+PyTorch is not included in requirement.txt, and you could intall it follow the instruction in PyTorch homepage [https://pytorch.org/](https://pytorch.org/).
 
 Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work but are not tested.
 
@@ -32,7 +32,7 @@ Please follow the instructions in the [quick start page](https://circuitnet.gith
 
 ## Example Usage:
 
-Change the configure to fit your file path and adjust hyper-parameter in [config.py](utils/configs.py) before starting.
+**Change the configure in [utils/config.py](utils/configs.py) to fit your file path and adjust hyper-parameter before starting.**
 
 ### Test
 
