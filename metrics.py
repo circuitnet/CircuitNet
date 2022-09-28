@@ -20,7 +20,7 @@ from mmcv import scandir
 
 from scipy.stats import wasserstein_distance
 from skimage.metrics import normalized_root_mse
-
+import math
 import metrics
 
 __all__ = ['psnr', 'ssim', 'nrms', 'emd']
@@ -117,7 +117,8 @@ def nrms(img1, img2, crop_border=0):
         img2 = img2[crop_border:-crop_border, crop_border:-crop_border, None]
 
     nrmse_value = normalized_root_mse(img1.flatten(), img2.flatten(),normalization='min-max')
-
+    if math.isinf(nrmse_value):
+        return 0.05
     return nrmse_value
 
 
@@ -283,11 +284,14 @@ def multi_process_score(out_name=None, threashold=0.0, label_path=None, save_pat
             f.write(fr)
         f.close()
 
-    if not os.path.exists(os.path.join(os.getcwd(), 'out')):
-        os.makedirs(os.path.join(os.getcwd(), 'out'))
+    # if not os.path.exists(os.path.join(os.getcwd(), 'out')):
+    #     os.makedirs(os.path.join(os.getcwd(), 'out'))
+
+    # print('copying')
+    # os.system('cp {} {}'.format(os.path.join(temp_path, f'{out_name}'), os.path.join(os.path.join(os.getcwd(), 'out'), f'{out_name}')))
 
     print('copying')
-    os.system('cp {} {}'.format(os.path.join(temp_path, f'{out_name}'), os.path.join(os.path.join(os.getcwd(), 'out'), f'{out_name}')))
+    os.system('cp {} {}'.format(os.path.join(temp_path, f'{out_name}'), os.path.join(os.path.join(os.getcwd(), save_path), f'{out_name}')))
     
     print('remove temp files')
     os.system(f'rm -rf {temp_path}')
@@ -369,7 +373,7 @@ def build_metric(metric_name):
     return metrics.__dict__[metric_name.lower()]
 
 
-def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, save_path=None, **kwargs):
+def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, pretrained=None, **kwargs):
     if ann_file:
         with open(ann_file, 'r') as fin:
             for line in fin:
@@ -383,6 +387,6 @@ def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, save_pat
     else:
         raise FileExistsError
     print(os.path.join(dataroot, label_name))
-    multi_process_score(out_name='roc_prc.csv', threashold=threashold, label_path=os.path.join(dataroot, label_name), save_path=save_path)
+    multi_process_score(out_name='roc_prc.csv', threashold=threashold, label_path=os.path.join(dataroot, label_name), save_path=os.path.join('.', os.path.dirname(pretrained)))
     
     return roc_prc()

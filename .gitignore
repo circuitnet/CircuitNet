@@ -27,3 +27,5 @@ gen_anno/*
 *.tar
 
 *.tar.gz
+
+nohup.out

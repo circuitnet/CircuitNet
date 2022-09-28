@@ -38,6 +38,7 @@ class CongestionDataset(object):
         
         feature =  results['feature'].transpose(2, 0, 1).astype(np.float32)
         label = results['label'].transpose(2, 0, 1).astype(np.float32)
+        #label = (label[:,:,0] +label[:,:,1])/2
         # label = np.expand_dims(results['label'], axis=0).astype(np.float32)
 
         return feature, label, results['label']

@@ -18,9 +18,12 @@ def test():
     argp = Paraser()
     arg = argp.parser.parse_args()
     arg_dict = vars(arg)
+    if arg.arg_file is not None:
+        with open(arg.arg_file, 'rt') as f:
+            arg_dict.update(json.load(f))
 
-    arg_dict['ann_file'] = arg.ann_file_test if arg.pretrained else arg.ann_file_train
-    arg_dict['test_mode'] = bool(arg.pretrained)
+    arg_dict['ann_file'] = arg_dict['ann_file_test'] 
+    arg_dict['test_mode'] = True
 
     print('===> Loading datasets')
     # Initialize dataset
@@ -32,8 +35,8 @@ def test():
     model = model.cuda()
 
     # Build metrics
-    metrics = {k:build_metric(k) for k in arg.eval_metric}
-    avg_metrics = {k:0 for k in arg.eval_metric}
+    metrics = {k:build_metric(k) for k in arg_dict['eval_metric']}
+    avg_metrics = {k:0 for k in arg_dict['eval_metric']}
 
     count =0
     with tqdm(total=len(dataset)) as bar:
@@ -42,10 +45,11 @@ def test():
 
             prediction = model(input)
             for metric, metric_func in metrics.items():
-                avg_metrics[metric] += metric_func(target.cpu(), prediction.squeeze(1).cpu())
+                if not metric_func(target.cpu(), prediction.squeeze(1).cpu()) == 1:
+                    avg_metrics[metric] += metric_func(target.cpu(), prediction.squeeze(1).cpu())
 
-            if arg.save_as_npy:
-                save_path = osp.join(arg.save_path, 'test_result')
+            if arg_dict['save_as_npy']:
+                save_path = osp.join(arg_dict['save_path'], 'test_result')
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
                 file_name = osp.splitext(osp.basename(label_path[0]))[0]
@@ -60,7 +64,7 @@ def test():
         print("===> Avg. {}: {:.4f}".format(metric, avg_metric / len(dataset))) 
 
     # eval roc&prc
-    if arg.save_as_npy:
+    if arg_dict['save_as_npy']:
         roc_metric, prc_metric = build_roc_prc_metric(**arg_dict)
         print("\n===> AUC of ROC. {:.4f}".format(roc_metric))
         print("===> AUC of PR. {:.4f}".format(prc_metric))

@@ -1,6 +1,7 @@
 # Copyright 2022 CircuitNet. All rights reserved.
 
 import os
+import json
 import torch
 import torch.optim as optim
 from tqdm import tqdm
@@ -92,9 +93,15 @@ def train():
     argp = Paraser()
     arg = argp.parser.parse_args()
     arg_dict = vars(arg)
+    if arg.arg_file is not None:
+        with open(arg.arg_file, 'rt') as f:
+            arg_dict.update(json.load(f))
 
-    arg_dict['ann_file'] = arg.ann_file_test if arg.pretrained else arg.ann_file_train
-    arg_dict['test_mode'] = bool(arg.pretrained)
+    with open(os.path.join('.' + arg_dict['save_path']  + 'arg.json'), 'wt') as f:
+      json.dump(arg_dict, f, indent=4)
+
+    arg_dict['ann_file'] = arg_dict['ann_file_train']
+    arg_dict['test_mode'] = False 
 
     print('===> Loading datasets')
     # Initialize dataset
@@ -109,10 +116,10 @@ def train():
     loss = build_loss(arg_dict)
 
     # Build Optimzer
-    optimizer = optim.AdamW(model.parameters(), lr=arg.lr,  betas=(0.9, 0.999), weight_decay=arg.weight_decay)
+    optimizer = optim.AdamW(model.parameters(), lr=arg_dict['lr'],  betas=(0.9, 0.999), weight_decay=arg_dict['weight_decay'])
 
     # Build lr scheduler
-    cosine_lr = CosineRestartLr(arg.lr, [arg.max_iters], [1], 1e-7)
+    cosine_lr = CosineRestartLr(arg_dict['lr'], [arg_dict['max_iters']], [1], 1e-7)
     cosine_lr.set_init_lr(optimizer)
 
     epoch_loss = 0
@@ -120,7 +127,7 @@ def train():
     print_freq = 100
     save_freq = 10000
 
-    while iter_num < arg.max_iters:
+    while iter_num < arg_dict['max_iters']:
         with tqdm(total=print_freq) as bar:
             for feature, label, _ in dataset:        
                 input, target = feature.cuda(), label.cuda()
@@ -142,9 +149,9 @@ def train():
                 if iter_num % print_freq == 0:
                     break
                 bar.update(1)
-        print("===> Iters[{}]({}/{}): Loss: {:.4f}".format(iter_num, iter_num, arg.max_iters, epoch_loss / print_freq))
+        print("===> Iters[{}]({}/{}): Loss: {:.4f}".format(iter_num, iter_num, arg_dict['max_iters'], epoch_loss / print_freq))
         if iter_num % save_freq == 0:
-            checkpoint(model, iter_num, arg.save_path)
+            checkpoint(model, iter_num, arg_dict['save_path'])
         epoch_loss = 0
 
 
