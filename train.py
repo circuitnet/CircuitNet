@@ -97,7 +97,9 @@ def train():
         with open(arg.arg_file, 'rt') as f:
             arg_dict.update(json.load(f))
 
-    with open(os.path.join('.' + arg_dict['save_path']  + 'arg.json'), 'wt') as f:
+    if not os.path.exists(arg_dict['save_path']):
+        os.makedirs(arg_dict['save_path'])
+    with open(os.path.join(arg_dict['save_path'],  'arg.json'), 'wt') as f:
       json.dump(arg_dict, f, indent=4)
 
     arg_dict['ann_file'] = arg_dict['ann_file_train']

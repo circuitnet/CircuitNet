@@ -12,7 +12,7 @@ class Paraser(object):
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('--task', default='congestion_gpdl')
 
-        self.parser.add_argument('--save_path', default='work_dir/drc_routenet/')
+        self.parser.add_argument('--save_path', default='work_dir/congestion_gpdl/')
     
         self.parser.add_argument('--pretrained', default=None)
 
@@ -23,9 +23,9 @@ class Paraser(object):
         
     def get_remainder(self):
         if self.parser.parse_args().task == 'congestion_gpdl':
-            self.parser.add_argument('--dataroot', default='../training_set/')
-            self.parser.add_argument('--ann_file_train', default='./congestion_train_super_transfer12.csv')
-            self.parser.add_argument('--ann_file_test', default='./congestion_val_super_transfer14.csv')
+            self.parser.add_argument('--dataroot', default='../training_set/congestion')
+            self.parser.add_argument('--ann_file_train', default='./files/train.csv')
+            self.parser.add_argument('--ann_file_test', default='./files/test.csv')
             self.parser.add_argument('--dataset_type', default='CongestionDataset')
             self.parser.add_argument('--batch_size', default=16)
             self.parser.add_argument('--aug_pipeline', default=['Flip'])
