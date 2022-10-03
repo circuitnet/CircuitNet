@@ -16,7 +16,7 @@ class Paraser(object):
     
         self.parser.add_argument('--pretrained', default=None)
 
-        self.parser.add_argument('--max_iters', default=20000)
+        self.parser.add_argument('--max_iters', default=200000)
         self.parser.add_argument('--save_as_npy', action='store_true')
         self.parser.add_argument('--arg_file', default=None)
         self.get_remainder()
