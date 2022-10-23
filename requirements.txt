@@ -3,7 +3,7 @@ certifi
 charset-normalizer==2.1.1
 idna==3.3
 imageio==2.21.1
-joblib==1.1.0
+joblib==1.2.0
 mmcv==1.6.1
 networkx==2.8.6
 numpy==1.23.2
