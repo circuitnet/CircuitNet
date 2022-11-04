@@ -73,4 +73,3 @@ def test():
 
 if __name__ == "__main__":
     test()
-git filter-branch --force --index-filter 'git rm -rf --cached --ignore-unmatch *.pth' --prune-empty --tag-name-filter cat -- --all
