@@ -12,7 +12,7 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 ## New Features/Updates
 
-* Sep 6, 2022. Pretrained weights are available in [checkpoint](checkpoint) dir.
+* Sep 6, 2022. Pretrained weights are available in [Google Drive](https://drive.google.com/drive/folders/10PD4zNa9fiVeBDQ0-drBwZ3TDEjQ3gmf?usp=sharing) and [Baidu Netdisk](https://pan.baidu.com/s/1dUEt35PQssS7_V4fRHwWTQ?pwd=7i67).
 
 ## Prerequisites
 
