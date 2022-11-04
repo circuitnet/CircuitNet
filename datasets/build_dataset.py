@@ -35,6 +35,5 @@ def build_dataset(opt):
     if opt['test_mode']:
         return DataLoader(dataset=dataset, num_workers=1, batch_size=1, shuffle=False)
     else:
-        return IterLoader(DataLoader(dataset=dataset, num_workers=32, batch_size=opt.pop('batch_size'), shuffle=True, drop_last=True))  # 这里看能不能这么写
-
+        return IterLoader(DataLoader(dataset=dataset, num_workers=32, batch_size=opt.pop('batch_size'), shuffle=True, drop_last=True))
 
