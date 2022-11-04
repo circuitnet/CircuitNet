@@ -310,8 +310,8 @@ def get_sorted_list(fpr_sum_List,tpr_sum_List):
     return fpr_list, tpr_list
 
 
-def roc_prc():
-    tpr_sum_List, fpr_sum_List, precision_sum_List = calculate_all(os.path.join(os.getcwd(), 'out', 'roc_prc.csv'))
+def roc_prc(save_path):
+    tpr_sum_List, fpr_sum_List, precision_sum_List = calculate_all(os.path.join(os.getcwd(), save_path, 'roc_prc.csv'))
 
     fpr_list, tpr_list = get_sorted_list(fpr_sum_List,tpr_sum_List)
     fpr_list = list(fpr_list)
@@ -373,7 +373,7 @@ def build_metric(metric_name):
     return metrics.__dict__[metric_name.lower()]
 
 
-def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, pretrained=None, **kwargs):
+def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, save_path=None, **kwargs):
     if ann_file:
         with open(ann_file, 'r') as fin:
             for line in fin:
@@ -387,6 +387,6 @@ def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, pretrain
     else:
         raise FileExistsError
     print(os.path.join(dataroot, label_name))
-    multi_process_score(out_name='roc_prc.csv', threashold=threashold, label_path=os.path.join(dataroot, label_name), save_path=os.path.join('.', os.path.dirname(pretrained)))
+    multi_process_score(out_name='roc_prc.csv', threashold=threashold, label_path=os.path.join(dataroot, label_name), save_path=os.path.join('.', save_path))
     
-    return roc_prc()
+    return roc_prc(save_path)
