@@ -148,10 +148,9 @@ def train():
 
                 iter_num += 1
 
-                bar.update(1)
                 if iter_num % print_freq == 0:
                     break
-                
+                bar.update(1)
         print("===> Iters[{}]({}/{}): Loss: {:.4f}".format(iter_num, iter_num, arg_dict['max_iters'], epoch_loss / print_freq))
         if iter_num % save_freq == 0:
             checkpoint(model, iter_num, arg_dict['save_path'])

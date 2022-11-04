@@ -41,7 +41,7 @@ class CongestionDataset(object):
         #label = (label[:,:,0] +label[:,:,1])/2
         # label = np.expand_dims(results['label'], axis=0).astype(np.float32)
 
-        return feature, label, results['label_path']
+        return feature, label, results['label']
 
     def __len__(self):
         return len(self.data_infos)
