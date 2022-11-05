@@ -389,4 +389,4 @@ def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, save_pat
     print(os.path.join(dataroot, label_name))
     multi_process_score(out_name='roc_prc.csv', threashold=threashold, label_path=os.path.join(dataroot, label_name), save_path=os.path.join('.', os.path.dirname(save_path)))
     
-    return roc_prc()
+    return roc_prc(save_path)
