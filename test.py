@@ -66,9 +66,8 @@ def test():
 
     # eval roc&prc
     if arg_dict['save_as_npy']:
-        roc_metric, prc_metric = build_roc_prc_metric(**arg_dict)
+        roc_metric, _ = build_roc_prc_metric(**arg_dict)
         print("\n===> AUC of ROC. {:.4f}".format(roc_metric))
-        print("===> AUC of PR. {:.4f}".format(prc_metric))
 
 
 if __name__ == "__main__":
