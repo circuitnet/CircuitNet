@@ -10,9 +10,12 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 --------
 
-## New Features/Updates
-* Dec 29, 2022. LEF/DEF (sanitized) are available in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/disk/main#/index?category=all&path=%2Fapps%2Fbypy%2FCircuitNet).
-* Sep 6, 2022. Pretrained weights are available in [Google Drive](https://drive.google.com/drive/folders/10PD4zNa9fiVeBDQ0-drBwZ3TDEjQ3gmf?usp=sharing) and [Baidu Netdisk](https://pan.baidu.com/s/1dUEt35PQssS7_V4fRHwWTQ?pwd=7i67).
+## ChangeLog
+- 2022/8/1 First release.
+- 2022/9/6 Pretrained weights are available in [Google Drive](https://drive.google.com/drive/folders/10PD4zNa9fiVeBDQ0-drBwZ3TDEjQ3gmf?usp=sharing) and [Baidu Netdisk](https://pan.baidu.com/s/1dUEt35PQssS7_V4fRHwWTQ?pwd=7i67).
+- 2022/12/12 Graph features are available in the graph_features dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/disk/main#/index?category=all&path=%2Fapps%2Fbypy%2FCircuitNet).
+- 2022/12/29 LEF/DEF (sanitized) are available in the LEF&DEF dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/disk/main#/index?category=all&path=%2Fapps%2Fbypy%2FCircuitNet).
+- 2022/3/21 LEF/DEF is updated to included tech information (sanitized).
 
 ## Prerequisites
 
