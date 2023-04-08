@@ -33,7 +33,8 @@ def test():
     print('===> Building model')
     # Initialize model parameters
     model = build_model(arg_dict)
-    model = model.cuda()
+    if not arg_dict['cpu']:
+        model = model.cuda()
 
     # Build metrics
     metrics = {k:build_metric(k) for k in arg_dict['eval_metric']}
@@ -42,7 +43,10 @@ def test():
     count =0
     with tqdm(total=len(dataset)) as bar:
         for feature, label, label_path in dataset:
-            input, target = feature.cuda(), label.cuda()
+            if arg_dict['cpu']:
+                input, target = feature, label
+            else:
+                input, target = feature.cuda(), label.cuda()
 
             prediction = model(input)
             for metric, metric_func in metrics.items():

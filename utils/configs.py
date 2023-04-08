@@ -19,6 +19,7 @@ class Paraser(object):
         self.parser.add_argument('--max_iters', default=200000)
         self.parser.add_argument('--save_as_npy', action='store_true')
         self.parser.add_argument('--arg_file', default=None)
+        self.parser.add_argument('--cpu', action='store_true')
         self.get_remainder()
         
     def get_remainder(self):

@@ -9,5 +9,8 @@ def build_model(opt):
     if opt['test_mode']:
         model.eval()
     elif not opt['test_mode'] and opt['pretrained'] is not None:
-        model.load_state_dict(torch.load(opt['pretrained'])['state_dict'])
+        if opt['cpu']:
+            model.load_state_dict(torch.load(opt['pretrained'], map_location=lambda storage, loc: storage)['state_dict'])
+        else:
+            model.load_state_dict(torch.load(opt['pretrained'])['state_dict'])
     return model
