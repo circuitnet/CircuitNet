@@ -112,7 +112,8 @@ def train():
     print('===> Building model')
     # Initialize model parameters
     model = build_model(arg_dict)
-    model = model.cuda()
+    if not arg_dict['cpu']:
+        model = model.cuda()
     
     # Build loss
     loss = build_loss(arg_dict)
@@ -132,7 +133,10 @@ def train():
     while iter_num < arg_dict['max_iters']:
         with tqdm(total=print_freq) as bar:
             for feature, label, _ in dataset:        
-                input, target = feature.cuda(), label.cuda()
+                if arg_dict['cpu']:
+                    input, target = feature, label
+                else:
+                    input, target = feature.cuda(), label.cuda()
 
                 regular_lr = cosine_lr.get_regular_lr(iter_num)
                 cosine_lr._set_lr(optimizer, regular_lr)
