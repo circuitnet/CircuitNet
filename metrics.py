@@ -239,11 +239,11 @@ def calculated_score(threshold_idx=None,
         target_probabilities[target_probabilities<threshold_idx] = 0
 
         if np.sum(target_probabilities == 0)==0 and np.sum(target_test == 0)==0:
-            tn = 256*256
-            tp, fn, fp = 0,0,0
-        elif np.sum(target_probabilities == 1)==0 and np.sum(target_test == 1)==0:
             tp = 256*256
             tn, fn, fp = 0,0,0
+        elif np.sum(target_probabilities == 1)==0 and np.sum(target_test == 1)==0:
+            tn = 256*256
+            tp, fn, fp = 0,0,0
         else:
             tn, fp, fn, tp = confusion_matrix(target_test, target_probabilities).ravel()
 
