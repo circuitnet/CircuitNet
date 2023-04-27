@@ -17,7 +17,7 @@ class Paraser(object):
         self.parser.add_argument('--pretrained', default=None)
 
         self.parser.add_argument('--max_iters', default=200000)
-        self.parser.add_argument('--save_as_npy', action='store_true')
+        self.parser.add_argument('--plot_roc', action='store_true')
         self.parser.add_argument('--arg_file', default=None)
         self.parser.add_argument('--cpu', action='store_true')
         self.get_remainder()
@@ -37,7 +37,7 @@ class Paraser(object):
             self.parser.add_argument('--lr', default=2e-4)
             self.parser.add_argument('--weight_decay', default=0)
             self.parser.add_argument('--loss_type', default='MSELoss')
-            self.parser.add_argument('--eval-metric', default=['PSNR', 'SSIM', 'EMD', 'NRMS'])
+            self.parser.add_argument('--eval-metric', default=['NRMS', 'SSIM', 'EMD'])
 
         elif self.parser.parse_args().task == 'drc_routenet':
             self.parser.add_argument('--dataroot', default='../training_set/DRC')
@@ -53,7 +53,7 @@ class Paraser(object):
             self.parser.add_argument('--lr', default=2e-4)
             self.parser.add_argument('--weight_decay', default=1e-4)
             self.parser.add_argument('--loss_type', default='MSELoss')
-            self.parser.add_argument('--eval-metric', default=['PSNR', 'SSIM'])
+            self.parser.add_argument('--eval-metric', default=['NRMS', 'SSIM'])
             self.parser.add_argument('--threashold', default=0.1)
 
 
@@ -70,7 +70,7 @@ class Paraser(object):
             self.parser.add_argument('--lr', default=2e-4)
             self.parser.add_argument('--weight_decay', default=1e-2)
             self.parser.add_argument('--loss_type', default='L1Loss')
-            self.parser.add_argument('--eval_metric', default=['PSNR', 'SSIM'])
+            self.parser.add_argument('--eval_metric', default=['NRMS', 'SSIM'])
             self.parser.add_argument('--threashold', default=0.05)
 
         else:

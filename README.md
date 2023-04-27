@@ -61,13 +61,13 @@ python test.py --task congestion_gpdl --pretrained PRETRAINED_WEIGHTS_PATH
 #### DRC
 
 ```python
-python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy
+python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH --plot_roc
 ```
 
 #### IR Drop
 
 ```python
-python test.py --task irdrop_mavi --pretrained PRETRAINED_WEIGHTS_PATH --save_as_npy
+python test.py --task irdrop_mavi --pretrained PRETRAINED_WEIGHTS_PATH --plot_roc
 ```
 
 ### Train

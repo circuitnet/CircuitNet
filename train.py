@@ -7,7 +7,7 @@ import torch.optim as optim
 from tqdm import tqdm
 
 from datasets.build_dataset import build_dataset
-from losses import build_loss
+from utils.losses import build_loss
 from models.build_model import build_model
 from utils.configs import Paraser
 from math import cos, pi

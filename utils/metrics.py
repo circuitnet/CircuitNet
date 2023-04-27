@@ -21,7 +21,7 @@ from mmcv import scandir
 from scipy.stats import wasserstein_distance
 from skimage.metrics import normalized_root_mse
 import math
-import metrics
+import utils.metrics as metrics
 
 __all__ = ['psnr', 'ssim', 'nrms', 'emd']
 

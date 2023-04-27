@@ -10,7 +10,7 @@ import numpy as np
 from tqdm import tqdm
 
 from datasets.build_dataset import build_dataset
-from metrics import build_metric, build_roc_prc_metric
+from utils.metrics import build_metric, build_roc_prc_metric
 from models.build_model import build_model
 from utils.configs import Paraser
 
@@ -53,7 +53,7 @@ def test():
                 if not metric_func(target.cpu(), prediction.squeeze(1).cpu()) == 1:
                     avg_metrics[metric] += metric_func(target.cpu(), prediction.squeeze(1).cpu())
 
-            if arg_dict['save_as_npy']:
+            if arg_dict['plot_roc']:
                 save_path = osp.join(arg_dict['save_path'], 'test_result')
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
@@ -69,7 +69,7 @@ def test():
         print("===> Avg. {}: {:.4f}".format(metric, avg_metric / len(dataset))) 
 
     # eval roc&prc
-    if arg_dict['save_as_npy']:
+    if arg_dict['plot_roc']:
         roc_metric, _ = build_roc_prc_metric(**arg_dict)
         print("\n===> AUC of ROC. {:.4f}".format(roc_metric))
 
