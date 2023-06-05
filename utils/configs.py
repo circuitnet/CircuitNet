@@ -54,7 +54,7 @@ class Paraser(object):
             self.parser.add_argument('--weight_decay', default=1e-4)
             self.parser.add_argument('--loss_type', default='MSELoss')
             self.parser.add_argument('--eval-metric', default=['NRMS', 'SSIM'])
-            self.parser.add_argument('--threashold', default=0.1)
+            self.parser.add_argument('--threshold', default=0.1)
 
 
         elif self.parser.parse_args().task == 'irdrop_mavi':
@@ -71,7 +71,7 @@ class Paraser(object):
             self.parser.add_argument('--weight_decay', default=1e-2)
             self.parser.add_argument('--loss_type', default='L1Loss')
             self.parser.add_argument('--eval_metric', default=['NRMS', 'SSIM'])
-            self.parser.add_argument('--threashold', default=0.9885) # 5% after log
+            self.parser.add_argument('--threshold', default=0.9885) # 5% after log
 
         else:
             raise ValueError
