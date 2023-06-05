@@ -373,7 +373,7 @@ def build_metric(metric_name):
     return metrics.__dict__[metric_name.lower()]
 
 
-def build_roc_prc_metric(threshold=None, dataroot=None, ann_file=None, pretrained=None, **kwargs):
+def build_roc_prc_metric(threshold=None, dataroot=None, ann_file=None, save_path=None, **kwargs):
     if ann_file:
         with open(ann_file, 'r') as fin:
             for line in fin:
@@ -387,6 +387,6 @@ def build_roc_prc_metric(threshold=None, dataroot=None, ann_file=None, pretraine
     else:
         raise FileExistsError
     print(os.path.join(dataroot, label_name))
-    multi_process_score(out_name='roc_prc.csv', threshold=threshold, label_path=os.path.join(dataroot, label_name), save_path=os.path.dirname(pretrained))
+    multi_process_score(out_name='roc_prc.csv', threshold=threshold, label_path=os.path.join(dataroot, label_name), save_path=os.path.join('.', save_path))
     
     return roc_prc(save_path)
