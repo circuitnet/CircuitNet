@@ -253,7 +253,7 @@ def calculated_score(threshold_idx=None,
 
     print(f'{threshold_idx}-done')
 
-def multi_process_score(out_name=None, threashold=0.0, label_path=None, save_path=None):
+def multi_process_score(out_name=None, threshold=0.0, label_path=None, save_path=None):
     uid = str(uuid.uuid4())
     suid = ''.join(uid.split('-'))
     temp_path = f'./{suid}'
@@ -273,7 +273,7 @@ def multi_process_score(out_name=None, threashold=0.0, label_path=None, save_pat
     threshold_list = np.linspace(0, 1, endpoint=False, num=200)
     
     calculated_score_parital = partial(calculated_score, temp_path=temp_path, 
-                                        label_path=label_path, save_path=save_path, threshold_label=threashold, preds=preds)
+                                        label_path=label_path, save_path=save_path, threshold_label=threshold, preds=preds)
     rel = pool.map(calculated_score_parital, threshold_list)
     
     print(f'{suid}')
@@ -373,7 +373,7 @@ def build_metric(metric_name):
     return metrics.__dict__[metric_name.lower()]
 
 
-def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, save_path=None, **kwargs):
+def build_roc_prc_metric(threshold=None, dataroot=None, ann_file=None, save_path=None, **kwargs):
     if ann_file:
         with open(ann_file, 'r') as fin:
             for line in fin:
@@ -387,6 +387,6 @@ def build_roc_prc_metric(threashold=None, dataroot=None, ann_file=None, save_pat
     else:
         raise FileExistsError
     print(os.path.join(dataroot, label_name))
-    multi_process_score(out_name='roc_prc.csv', threashold=threashold, label_path=os.path.join(dataroot, label_name), save_path=os.path.join('.', save_path))
+    multi_process_score(out_name='roc_prc.csv', threshold=threshold, label_path=os.path.join(dataroot, label_name), save_path=os.path.join('.', save_path))
     
     return roc_prc(save_path)
