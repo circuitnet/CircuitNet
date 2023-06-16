@@ -31,6 +31,7 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
   Congestion features and graph features generated from ISPD2015 benchmark are available in the ISPD2015 dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
 
 - 2023/6/14
+
   The original dataset is renamed to CircuitNet-N28, and timing features are released.
 
   New dataset CircuitNet-N14 is released, supporting congestion, IR drop and net delay prediction. 
