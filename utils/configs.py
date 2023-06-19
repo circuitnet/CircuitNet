@@ -7,7 +7,7 @@ import sys
 sys.path.append(os.getcwd())
 
 
-class Paraser(object):
+class Parser(object):
     def __init__(self) -> None:
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('--task', default='congestion_gpdl')
