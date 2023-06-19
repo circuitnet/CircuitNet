@@ -9,7 +9,7 @@ from tqdm import tqdm
 from datasets.build_dataset import build_dataset
 from utils.losses import build_loss
 from models.build_model import build_model
-from utils.configs import Paraser
+from utils.configs import Parser
 from math import cos, pi
 import sys, os, subprocess
 
@@ -90,7 +90,7 @@ class CosineRestartLr(object):
 
 
 def train():
-    argp = Paraser()
+    argp = Parser()
     arg = argp.parser.parse_args()
     arg_dict = vars(arg)
     if arg.arg_file is not None:
