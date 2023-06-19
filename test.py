@@ -12,11 +12,11 @@ from tqdm import tqdm
 from datasets.build_dataset import build_dataset
 from utils.metrics import build_metric, build_roc_prc_metric
 from models.build_model import build_model
-from utils.configs import Paraser
+from utils.configs import Parser
 
 
 def test():
-    argp = Paraser()
+    argp = Parser()
     arg = argp.parser.parse_args()
     arg_dict = vars(arg)
     if arg.arg_file is not None:
