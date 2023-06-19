@@ -11,32 +11,37 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 --------
 
 ## ChangeLog
-- 2022/8/1 
-  
-  First release.
-- 2022/9/6 
 
-  Pretrained weights are available in [Google Drive](https://drive.google.com/drive/folders/10PD4zNa9fiVeBDQ0-drBwZ3TDEjQ3gmf?usp=sharing) and [Baidu Netdisk](https://pan.baidu.com/s/1dUEt35PQssS7_V4fRHwWTQ?pwd=7i67).
-- 2022/12/12 
+- 2023/6/14
 
-  Graph features are available in the graph_features dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
-- 2022/12/29 
+  The original dataset is renamed to CircuitNet-N28, and timing features are released.
 
-  LEF/DEF (sanitized) are available in the LEF&DEF dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
+  New dataset CircuitNet-N14 is released, supporting congestion, IR drop and timing prediction.
 
 - 2023/3/22 
 
   LEF/DEF is updated to include tech information (sanitized). Each tarfile contains 500 DEF files and can be decompressed separately. We also provide example DEF files.
   
   Congestion features and graph features generated from ISPD2015 benchmark are available in the ISPD2015 dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
+  
+- 2022/12/29 
 
-- 2023/6/14
+  LEF/DEF (sanitized) are available in the LEF&DEF dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
 
-  The original dataset is renamed to CircuitNet-N28, and timing features are released.
+- 2022/12/12 
 
-  New dataset CircuitNet-N14 is released, supporting congestion, IR drop and net delay prediction. 
+  Graph features are available in the graph_features dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
 
-  Codes for feature extraction and net delay prediction coming soon. 
+- 2022/9/6 
+
+  Pretrained weights are available in [Google Drive](https://drive.google.com/drive/folders/10PD4zNa9fiVeBDQ0-drBwZ3TDEjQ3gmf?usp=sharing) and [Baidu Netdisk](https://pan.baidu.com/s/1dUEt35PQssS7_V4fRHwWTQ?pwd=7i67).
+
+
+- 2022/8/1 
+  
+  First release.
+
+
   
 ## Prerequisites
 
