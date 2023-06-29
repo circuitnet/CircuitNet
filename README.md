@@ -62,55 +62,58 @@ Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work b
 
 ## Congestion, DRC, IR drop prediction
 
-## Data Preparation
+### Data Preparation
 
 Please follow the instructions on the [quick start page](https://circuitnet.github.io/intro/quickstart.html) to set up the CircuitNet dataset for a specific task(Congestion/DRC/IR Drop).
 
-## Example Usage:
+### Example Usage:
 
 **Change the configure in [utils/config.py](utils/configs.py) to fit your file path and adjust hyper-parameter before starting.**
 
-### Test
+#### Test
 
-#### Congestion
+##### Congestion
 
 ```python
 python test.py --task congestion_gpdl --pretrained PRETRAINED_WEIGHTS_PATH
 ```
 
-#### DRC
+##### DRC
 
 ```python
 python test.py --task drc_routenet --pretrained PRETRAINED_WEIGHTS_PATH --save_path work_dir/drc_routenet/ --plot_roc 
 ```
 
-#### IR Drop
+##### IR Drop
 
 ```python
 python test.py --task irdrop_mavi --pretrained PRETRAINED_WEIGHTS_PATH --save_path work_dir/irdrop_mavi/ --plot_roc
 ```
 
-### Train
+#### Train
 
-#### Congestion
+##### Congestion
 
 ```python
 python train.py --task congestion_gpdl --save_path work_dir/congestion_gpdl/
 ```
 
-#### DRC
+##### DRC
 
 ```python
 python train.py --task drc_routenet --save_path work_dir/drc_routenet/
 ```
 
-#### IR Drop
+##### IR Drop
 
 ```python
 python train.py --task irdrop_mavi --save_path work_dir/irdrop_mavi/
 ```
 
 ## Net Delay prediction
+
+### Data Preparation
+
 Graphs for net delay prediction can be built with the following script:
 
 ```python
