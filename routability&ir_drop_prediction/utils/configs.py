@@ -24,7 +24,7 @@ class Parser(object):
         
     def get_remainder(self):
         if self.parser.parse_args().task == 'congestion_gpdl':
-            self.parser.add_argument('--dataroot', default='../training_set/congestion')
+            self.parser.add_argument('--dataroot', default='../../training_set/congestion')
             self.parser.add_argument('--ann_file_train', default='./files/train.csv')
             self.parser.add_argument('--ann_file_test', default='./files/test.csv')
             self.parser.add_argument('--dataset_type', default='CongestionDataset')
@@ -40,7 +40,7 @@ class Parser(object):
             self.parser.add_argument('--eval-metric', default=['NRMS', 'SSIM', 'EMD'])
 
         elif self.parser.parse_args().task == 'drc_routenet':
-            self.parser.add_argument('--dataroot', default='../training_set/DRC')
+            self.parser.add_argument('--dataroot', default='../../training_set/DRC')
             self.parser.add_argument('--ann_file_train', default='./files/train.csv')
             self.parser.add_argument('--ann_file_test', default='./files/test.csv')
             self.parser.add_argument('--dataset_type', default='DRCDataset')
@@ -58,7 +58,7 @@ class Parser(object):
 
 
         elif self.parser.parse_args().task == 'irdrop_mavi':
-            self.parser.add_argument('--dataroot', default='../training_set/IR_drop')
+            self.parser.add_argument('--dataroot', default='../../training_set/IR_drop')
             self.parser.add_argument('--ann_file_train', default='./files/train.csv')
             self.parser.add_argument('--ann_file_test', default='./files/test.csv')
             self.parser.add_argument('--dataset_type', default='IRDropDataset')

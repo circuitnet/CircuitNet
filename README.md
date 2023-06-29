@@ -12,6 +12,11 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 ## ChangeLog
 
+- 2023/6/29
+
+  Code for net delay prediction released. A simple tutorial on net delay prediction is added to [our website](https://circuitnet.github.io/tutorial/experiment_tutorial.html#Net_Delay).
+
+
 - 2023/6/14
 
   The original dataset is renamed to CircuitNet-N28, and timing features are released.
@@ -51,13 +56,15 @@ Dependencies can be installed using pip:
 pip install -r requirements.txt
 ```
 
-PyTorch is not included in requirement.txt, and you could intall it follow the instruction in PyTorch homepage [https://pytorch.org/](https://pytorch.org/).
+PyTorch is not included in requirement.txt, and you could install it following the instruction on PyTorch homepage [https://pytorch.org/](https://pytorch.org/).
 
 Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work but are not tested.
 
+## Congestion, DRC, IR drop prediction
+
 ## Data Preparation
 
-Please follow the instructions in the [quick start page](https://circuitnet.github.io/intro/quickstart.html) to setup the CircuitNet dataset for specific task(Congestion/DRC/IR Drop).
+Please follow the instructions on the [quick start page](https://circuitnet.github.io/intro/quickstart.html) to set up the CircuitNet dataset for a specific task(Congestion/DRC/IR Drop).
 
 ## Example Usage:
 
@@ -102,6 +109,27 @@ python train.py --task drc_routenet --save_path work_dir/drc_routenet/
 ```python
 python train.py --task irdrop_mavi --save_path work_dir/irdrop_mavi/
 ```
+
+## Net Delay prediction
+Graphs for net delay prediction can be built with the following script:
+
+```python
+python build_graph.py --data_path DATA_PATH --save_path ./graph
+```
+where DATA_PATH is the path to the parent dir of the timing features: nodes, net_edges and pin_positions.
+
+### Train
+
+```python
+python train.py --checkpoint CHECKPOINT_NAME
+```
+where CHECKPOINT_NAME is the name of the dir for saving checkpoint.
+### Test
+
+```python
+python train.py --checkpoint CHECKPOINT_NAME --test_iter TEST_ITERATION
+```
+where TEST_ITERATION is the specific iteration for testing, corresponding to the saved checkpoint file name.
 
 ## License
 

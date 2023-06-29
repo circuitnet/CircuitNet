@@ -1,31 +1,10 @@
-ckpt/*
+routability&ir_drop_prediction/work_dir/*
 
-work_dir/*
+net_delay_prediction/checkpoints/*
 
 *.pyc
-
-utils/drc_report/*
-
-utils/irdrop_report/*
 
 .vscode/*
 
 __pycache__/*
 
-models/unet2plus_3d_generator2.py
-
-models/unet_layers.py
-
-models/unet2plus_generator.py
-
-self_tools/*
-
-out/*
-
-gen_anno/*
-
-*.tar
-
-*.tar.gz
-
-nohup.out
