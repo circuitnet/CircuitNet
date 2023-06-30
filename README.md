@@ -64,7 +64,7 @@ Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work b
 
 ### Data Preparation
 
-Please follow the instructions on the [quick start page](https://circuitnet.github.io/intro/quickstart.html) to set up the CircuitNet dataset for a specific task(Congestion/DRC/IR Drop).
+Please follow the instructions on the [download page](https://circuitnet.github.io/intro/download.html) to set up the CircuitNet dataset for a specific task(Congestion/DRC/IR Drop).
 
 ### Example Usage:
 
