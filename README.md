@@ -12,6 +12,10 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 ## ChangeLog
 
+- 2023/7/24
+
+  Code for feature extraction released. Users can use it to implement self-defined features with the LEF/DEF we released or extract features with LEF/DEF from other sources.
+
 - 2023/6/29
 
   Code for net delay prediction released. A simple tutorial on net delay prediction is added to [our website](https://circuitnet.github.io/tutorial/experiment_tutorial.html#Net_Delay).
