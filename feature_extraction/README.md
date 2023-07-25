@@ -55,11 +55,11 @@
     <td class="tg-c3ow" colspan="2">Graph Features</td>
   </tr>
   <tr>
-    <td class="tg-0pky">pin_positions(graph feature)</td>
+    <td class="tg-0pky">pin_positions</td>
     <td class="tg-0pky">read_route_pin_position</td>
   </tr>
   <tr>
-    <td class="tg-0pky">instance_placement_micron/gcell(graph feature)</td>
+    <td class="tg-0pky">instance_placement_micron/gcell</td>
     <td class="tg-0pky">read_instance_placement</td>
   </tr>
 </tbody>
