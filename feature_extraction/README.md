@@ -73,7 +73,7 @@ python process_data.py
 
 The results are in ./out
 
-4. Visualization
+4. Visualization (optional)
 
 Modify the arguments in vis.py to match your path, and
 
