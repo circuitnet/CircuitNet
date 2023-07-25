@@ -35,11 +35,14 @@ def read(read_list, arg, lef_dic):
         path = os.path.join(arg.data_root, path)
         save_name = os.path.basename(path)
         process_log = ReadInnovusOutput(path, arg, save_name, lef_dic)
+
+        ### call functions to get features, reference in README ###
+
         process_log.read_route_def()        
         process_log.read_place_def()
         process_log.compute_cell_density()
         process_log.get_RUDY()
-                
+
 if __name__ == '__main__':
     argp = Paraser()
     arg = argp.parser.parse_args()

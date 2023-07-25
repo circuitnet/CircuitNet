@@ -462,7 +462,7 @@ class ReadInnovusOutput:
     Read place DEF, get instance placement in micron or in GCell grids (graph features).
     '''
     
-    def read_cell_placement_micron_gcell(self):
+    def read_instance_placement(self):
         out_instance_dic_micron = {}
         out_instance_dic_gcell = {}
         with open(self.route_def_path, 'r') as read_file:
@@ -846,15 +846,15 @@ class ReadInnovusOutput:
     Get DRC related features (routability feature).
     """
     
-    def get_drc(self):
-        self.read_drc()
-        self.compute_drc_density()
+    def get_DRC(self):
+        self.read_DRC()
+        self.compute_DRC_density()
         
     """
-    Function used by get_drc. Read DRC report and extract DRC rects.
+    Function used by get_DRC. Read DRC report and extract DRC rects.
     """
 
-    def read_drc(self):
+    def read_DRC(self):
         with open(self.drc_path, 'r') as read_file:
             for line in read_file:
                 if "Net" in line or "Cell" in line:
@@ -875,10 +875,10 @@ class ReadInnovusOutput:
                     pass
                 
     """
-    Function used by get_drc. Compute DRC density in GCell grids.
+    Function used by get_DRC. Compute DRC density in GCell grids.
     """
     
-    def compute_drc_density(self):
+    def compute_DRC_density(self):
         drc_density_dict = {}
         overall_count = 0
         save_path = os.path.join(self.save_path, 'DRC')
@@ -917,14 +917,14 @@ class ReadInnovusOutput:
     Get IR drop features.
     """
     
-    def get_ir_features(self):
+    def get_IR_features(self):
         self.read_twf()
         self.read_power()
         self.get_power_map()
-        self.get_ir()
+        self.get_IR()
                 
     """
-    Function used by get_ir_features. Read timing window file to get timing window.
+    Function used by get_IR_features. Read timing window file to get timing window.
     """
     
     def read_twf(self):
@@ -968,7 +968,7 @@ class ReadInnovusOutput:
                                 self.tw_dict[cell_name].append(tw_result)
                 
     """
-    Function used by get_ir_features. Read instance power report.
+    Function used by get_IR_features. Read instance power report.
     """
     
     def read_power(self):
@@ -1014,7 +1014,7 @@ class ReadInnovusOutput:
                                 self.power_dict[name] = [eval(data[2])/eval(data[1]), float(data[3]), float(data[4]), float(data[5]), self.tw_dict[name]]
                 
     """
-    Function used by get_ir_features. Compute power map in GCell grids.
+    Function used by get_IR_features. Compute power map in GCell grids.
     """
     
     def get_power_map(self):
@@ -1064,10 +1064,10 @@ class ReadInnovusOutput:
         save(self.save_path, 'IR_drop/power_all', self.save_name, self.power_all)
 
     """
-    Function used by get_ir_features. Read IR drop reports.
+    Function used by get_IR_features. Read IR drop reports.
     """
     
-    def get_ir(self):
+    def get_IR(self):
         self.ir_map = np.zeros(self.gcell_size)
         with open(self.ir_path, 'r') as read_file:
             read = False
