@@ -14,7 +14,7 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 - 2023/7/24
 
-  Code for feature extraction released. Users can use it to implement self-defined features with the LEF/DEF we released or extract features with LEF/DEF from other sources.
+  Code for feature extraction released. Users can use it to implement self-defined features with the LEF/DEF we released or extract features with LEF/DEF from other sources. Read the [REAME](https://github.com/circuitnet/CircuitNet/blob/main/feature_extraction/README.md) for more information.
 
 - 2023/6/29
 
