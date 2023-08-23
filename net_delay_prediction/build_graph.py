@@ -41,7 +41,7 @@ def build_graph(args, path_list):
         
         
 def parse_args():
-    parser = argparse.ArgumentParser(description=description)
+    parser = argparse.ArgumentParser()
                                                              
     parser.add_argument("--task", default = 'net_delay', type=str, help = 'only support net delay for now' )
     parser.add_argument("--data_path", default = './post_route', type=str, help = 'path to the parent dir of features: nodes, net_edges, pin_positions')
