@@ -146,17 +146,15 @@ This repository is released under the BSD 3-Clause. license as found in the LICE
 
 ## Citation
 
-If you think our work is useful, please feel free to cite our [paper](https://www.sciengine.com/SCIS/doi/10.1007/s11432-022-3571-8)😆 .
+If you think our work is useful, please feel free to cite our [paper](https://ieeexplore.ieee.org/document/10158384)😆 .
 
 ```
-@article{chai2022circuitnet,
-    title = {CircuitNet: An Open-Source Dataset for Machine Learning Applications in Electronic Design Automation (EDA)},
-    author = {Chai, Zhuomin and Zhao, Yuxiang and Lin, Yibo and Liu, Wei and Wang, Runsheng and Huang, Ru},
-    journal= {SCIENCE CHINA Information Sciences},
-    volume={65},
-    number = "12",
-    pages={227401-},
-    year = {2022}
+@ARTICLE{10158384,
+  author={Chai, Zhuomin and Zhao, Yuxiang and Liu, Wei and Lin, Yibo and Wang, Runsheng and Huang, Ru},
+  journal={IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems}, 
+  title={CircuitNet: An Open-Source Dataset for Machine Learning in VLSI CAD Applications with Improved Domain-Specific Evaluation Metric and Learning Strategies}, 
+  year={2023},
+  doi={10.1109/TCAD.2023.3287970}}
 }
 ```
 
@@ -166,6 +164,7 @@ For any questions, please do not hesitate to contact us.
 
 ```
 Zhuomin Chai: zhuominchai@whu.edu.cn
+Xun Jiang: jiangx2015@gmail.com
 Yuxiang Zhao: yuxiangzhao@stu.pku.edu.cn
 Yibo Lin: yibolin@pku.edu.cn
 ```
