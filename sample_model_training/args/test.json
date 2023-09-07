@@ -1,0 +1,11 @@
+{   "gpu": 0,
+    "save_path": "work_dir/sample/",
+    "ann_file": "../feature_extraction/test.csv",
+    "dataroot": "../feature_extraction",
+    "dataset_type": "TestDataset",
+    "model_type": "FCN",
+    "in_channels": 2,
+    "out_channels": 1,
+    "eval_metric": ["NRMS", "SSIM", "corrcoef"],
+    "pretrained": "/NvmeData1/zmchai/eda_result/CircuitNet/CircuitNet/routability_ir_drop_prediction/work_dir/sample/train-20230907_183312/model_iters_100.pth"
+}

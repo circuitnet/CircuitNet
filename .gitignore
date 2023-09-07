@@ -1,0 +1,12 @@
+*.pyc
+
+.vscode/*
+
+__pycache__/*
+
+feature_extraction/out/
+feature_extraction/training_set/
+feature_extraction/train.csv
+feature_extraction/test.csv
+
+sample_model_training/work_dir/*
