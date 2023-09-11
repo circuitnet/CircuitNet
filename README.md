@@ -4,6 +4,13 @@
 
 This branch hosts the sample codes for ICISC 2023 Phlexing "Machine Learning driven Static IR drop estimation of SoC power grid network".
 
+Use git checkout to switch to this branch.
+
+```sh
+git checkout icisc_2023
+```
+
+
 Whole data will be released next week.
 
 ## Prerequisites
