@@ -115,26 +115,6 @@ class Paraser:
         save(self.save_path, 'features/eff_res_VDD', self.save_name, self.eff_res_VDD_map)
         # for visualization
         if self.plot:
-            ir_max = self.IR_drop_map.max()
-            ir_mean = self.IR_drop_map.mean()
-            
-            r_max = self.eff_res_VDD_map.max()
-            r_mean = self.eff_res_VDD_map.mean()
-
-            self.save_name = '{}_{:.4f}_{:.4f}_{:.4f}_{:.4f}'.format(self.save_name, ir_max, ir_mean, r_max, r_mean)
-
-
-            print(self.save_name)
-            if ir_max > 5*ir_mean:
-                print(os.path.join(self.save_path, 'visual', self.save_name ))
-                if not os.path.exists(os.path.join(self.save_path, 'visual2')):
-                    os.makedirs(os.path.join(self.save_path, 'visual2'))
-                fig = sns.heatmap(data=self.IR_drop_map, cmap="rainbow").get_figure()
-                fig.savefig(os.path.join(self.save_path,'visual2', '{}_{:.4f}_{:.4f}_{:.4f}_{:.4f}.png'.format(self.save_name, ir_max, ir_mean, r_max, r_mean)), dpi=100)
-                plt.close()
-                self.save_name = 'check/' + self.save_name
-
-
             if not os.path.exists(os.path.join(self.save_path, 'visual', self.save_name)):
                 os.makedirs(os.path.join(self.save_path, 'visual', self.save_name))
             fig = sns.heatmap(data=self.eff_res_VDD_map, cmap="rainbow").get_figure()
