@@ -1,4 +1,4 @@
-import os.path as osp
+import os
 import copy
 import numpy as np
 
@@ -13,24 +13,16 @@ class TestDataset(object):
 
     def load_annotations(self):
         data_infos = []
-        feature_path_list = []
-        label_path_list = []
-        instance_count_path_list = []
-        instance_IR_drop_path_list = []
         with open(self.ann_file, 'r') as fin:
             for line in fin:
-                feature, label, instance_count, instance_IR_drop = line.strip().split(',')
+                feature, label, instance_count, instance_IR_drop, instance_name = line.strip().split(',')
                 if self.dataroot is not None:
-                    feature_path = osp.join(self.dataroot, feature)
-                    label_path = osp.join(self.dataroot, label)
-                    instance_count_path = osp.join(self.dataroot, instance_count)
-                    instance_IR_drop_path = osp.join(self.dataroot, instance_IR_drop)
-                feature_path_list.append(feature_path)
-                label_path_list.append(label_path)
-                instance_count_path_list.append(instance_count_path)
-                instance_IR_drop_path_list.append(instance_IR_drop_path)
-        for feature_path, label_path, instance_count_path, instance_IR_drop_path in sorted(zip(feature_path_list, label_path_list, instance_count_path_list, instance_IR_drop_path_list)):
-            data_infos.append(dict(feature_path=feature_path, label_path=label_path, instance_count_path=instance_count_path, instance_IR_drop_path=instance_IR_drop_path))
+                    feature_path = os.path.join(self.dataroot, feature)
+                    label_path = os.path.join(self.dataroot, label)
+                    instance_count_path = os.path.join(self.dataroot, instance_count)
+                    instance_IR_drop_path = os.path.join(self.dataroot, instance_IR_drop)
+                    instance_name_path = os.path.join(self.dataroot, instance_name)
+                data_infos.append(dict(feature_path=feature_path, label_path=label_path, instance_count_path=instance_count_path, instance_IR_drop_path=instance_IR_drop_path, instance_name_path=instance_name_path))
         return data_infos
 
     def prepare_data(self, idx):
@@ -38,7 +30,7 @@ class TestDataset(object):
         
         feature = np.load(results['feature_path']).transpose(2, 0, 1).astype(np.float32)
         label = np.load(results['label_path']).transpose(2, 0, 1).astype(np.float32)
-        return feature, label,  results['instance_count_path'], results['instance_IR_drop_path']
+        return feature, label,  results['instance_count_path'], results['instance_IR_drop_path'], results['instance_name_path']
 
 
     def __len__(self):

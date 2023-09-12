@@ -30,17 +30,19 @@ if __name__ == '__main__':
                 labels_path = 'training_set/sample/label/' + features_name
                 instance_count_path = 'out/features/instance_count/' + features_name
                 instance_IR_drop_path = 'out/features/instance_IR_drop/' + features_name
+                instance_name_path = 'out/features/instance_name/' + features_name
                 if len(features) == 2:
                     if i == 0: 
                         f_train_csv.writerow([features_path, labels_path])
+                        f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path, instance_name_path])
                         print(f'train: {i}')
                     else:
-                        f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path])
+                        f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path, instance_name_path])
                         print(f'test: {i}')
                 else:
                     if random.random <= split_ratio:
                         f_train_csv.writerow([features_path, labels_path])
                         print(f'train: {i}')
                     else:
-                        f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path])
+                        f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path, instance_name_path])
                         print(f'test: {i}')

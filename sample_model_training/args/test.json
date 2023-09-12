@@ -7,5 +7,5 @@
     "in_channels": 2,
     "out_channels": 1,
     "eval_metric": ["NRMS", "SSIM", "corrcoef"],
-    "pretrained": "/NvmeData1/zmchai/eda_result/CircuitNet/CircuitNet/routability_ir_drop_prediction/work_dir/sample/train-20230907_183312/model_iters_100.pth"
+    "pretrained": "./work_dir/sample/train-20230912_184235/model_iters_400.pth"
 }

@@ -1,5 +1,4 @@
 import os
-import os.path as osp
 import json
 import numpy as np
 import torch
@@ -82,8 +81,8 @@ def test():
 
     count = 1
     start = True
-    for feature, label, instance_count_path, instance_IR_drop_path in dataset:
-        design_name = osp.basename(instance_IR_drop_path[0])
+    for feature, label, instance_count_path, instance_IR_drop_path, instance_name_path in dataset:
+        design_name = os.path.basename(instance_IR_drop_path[0])
         if 'FPU' in design_name:
             design_name = 'RISCY-FPU'
         else:
@@ -107,14 +106,24 @@ def test():
             torch.cuda.synchronize()
             end_time = time.time()
         logger.info('#{} {}, inference time {}s'.format(count, os.path.basename(instance_IR_drop_path[0][:-4]), end_time - start_time))
+
+        instance_count = np.load(instance_count_path[0]).astype(int)
+        instance_IR_drop = np.load(instance_IR_drop_path[0])
+        pred_nonresize = resize(prediction.detach().squeeze().cpu().numpy(), instance_count.shape)
+        pred_instance_ir = np.repeat(pred_nonresize.ravel(),instance_count.ravel())
+
+        instance_name = np.load(instance_name_path[0], allow_pickle=True)
+        assert(len(pred_instance_ir)==len(instance_name))
+
+        with open('{}/{}'.format(log_dir, 'pred_static_ir'), 'w') as f:
+            f.write('vdd_drop inst_name\n')
+            for i,j in zip(pred_instance_ir, instance_name):
+                f.write('{} {}\n'.format(i,j))
+
+
         for metric, metric_func in metrics.items():
             if metric == 'corrcoef':
-                instance_count = np.load(instance_count_path[0]).astype(int)
-                instance_IR_drop = np.load(instance_IR_drop_path[0])
-                pred_nonresize = resize(prediction.detach().squeeze().cpu().numpy(), instance_count.shape)
-                pred_instance = np.repeat(pred_nonresize.ravel(),instance_count.ravel())
-
-                result = metric_func(instance_IR_drop, pred_instance)
+                result = metric_func(instance_IR_drop, pred_instance_ir)
             else:
                 result = metric_func(label, prediction.squeeze(1).cpu())
 
@@ -126,8 +135,8 @@ def test():
 
 
 
-        save_path = osp.join(arg_dict['save_path'], 'test_result')
-        file_name = osp.splitext(osp.basename(instance_IR_drop_path[0]))[0]
+        save_path = os.path.join(log_dir, 'test_result')
+        file_name = os.path.splitext(os.path.basename(instance_IR_drop_path[0]))[0]
         if not os.path.exists(save_path):
             os.makedirs(save_path)
 
@@ -147,6 +156,8 @@ def test():
     for metric, avg_metric in avg_metrics.items():
         logger.info("===> Avg. {}: {:.4f}".format(metric, avg_metric / len(dataset))) 
     for metric, design in split_metrics.items():
+        if len(design) == 1:
+            continue
         for name, values in design.items():
             logger.info("===> {} {}: {:.4f}".format(name, metric, values[0] / values[1])) 
 

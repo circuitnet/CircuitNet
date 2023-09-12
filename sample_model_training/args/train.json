@@ -1,14 +1,14 @@
 {   "gpu": 0,
     "save_path": "work_dir/sample/",
     "batch_size": 1,
-    "max_iters": 100,
+    "max_iters": 500,
     "ann_file": "../feature_extraction/train.csv",
     "dataroot": "../feature_extraction",
     "dataset_type": "TrainDataset",
     "model_type": "FCN",
     "in_channels": 2,
     "out_channels": 1,
-    "lr": 0.0002,
+    "lr": 0.002,
     "weight_decay": 0,
     "loss_type": "MSELoss"
 }

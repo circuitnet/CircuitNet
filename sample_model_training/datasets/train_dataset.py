@@ -1,4 +1,4 @@
-import os.path as osp
+import os
 import copy
 import numpy as np
 from torchvision.transforms import Compose
@@ -22,8 +22,8 @@ class TrainDataset(object):
             for line in fin:
                 feature, label = line.strip().split(',')
                 if self.dataroot is not None:
-                    feature_path = osp.join(self.dataroot, feature)
-                    label_path = osp.join(self.dataroot, label)
+                    feature_path = os.path.join(self.dataroot, feature)
+                    label_path = os.path.join(self.dataroot, label)
                 data_infos.append(dict(feature_path=feature_path, label_path=label_path))
         return data_infos
 

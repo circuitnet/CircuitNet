@@ -147,7 +147,7 @@ def train():
 
     epoch_loss = 0
     iter_num = 0
-    print_freq = 100
+    print_freq = min(100, int(arg_dict['max_iters']/10))
     save_freq = int(arg_dict['max_iters']/10)
 
     while iter_num < arg_dict['max_iters']:
@@ -173,15 +173,13 @@ def train():
                 iter_num += 1
                 
                 bar.update(1)
-
+                if iter_num % save_freq == 0:
+                    checkpoint(logger, model, iter_num, log_dir)
                 if iter_num % print_freq == 0:
                     break
 
         logger.info("===> Iters[{}]({}/{}): Loss: {:.4f}".format(iter_num, iter_num, arg_dict['max_iters'], epoch_loss / print_freq))
         writer.add_scalar('Loss/training loss', epoch_loss / print_freq , iter_num)        
-
-        if iter_num % save_freq == 0:
-            checkpoint(logger, model, iter_num, log_dir)
         epoch_loss = 0
 
 
