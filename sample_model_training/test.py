@@ -3,16 +3,13 @@ import json
 import numpy as np
 import torch
 from tqdm import tqdm
-import logging
-import datetime
 import time
 from datasets.build_dataset import build_dataset
-from utils.metrics import build_metric, build_roc_prc_metric
+from utils.metrics import build_metric
 from models.build_model import build_model
 from utils.arg_parser import Parser
 from utils.logger import build_logger
 
-import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -115,7 +112,8 @@ def test():
         instance_name = np.load(instance_name_path[0], allow_pickle=True)
         assert(len(pred_instance_ir)==len(instance_name))
 
-        with open('{}/{}'.format(log_dir, 'pred_static_ir'), 'w') as f:
+        file_name = os.path.splitext(os.path.basename(instance_IR_drop_path[0]))[0]
+        with open('{}/{}'.format(log_dir, 'pred_static_ir_{}'.format(file_name)), 'w') as f:
             f.write('vdd_drop inst_name\n')
             for i,j in zip(pred_instance_ir, instance_name):
                 f.write('{} {}\n'.format(i,j))
@@ -132,14 +130,9 @@ def test():
             split_metrics[metric][design_name][0] = split_metrics[metric][design_name][0] + result
             split_metrics[metric][design_name][1] = split_metrics[metric][design_name][1] + 1
 
-
-
-
         save_path = os.path.join(log_dir, 'test_result')
-        file_name = os.path.splitext(os.path.basename(instance_IR_drop_path[0]))[0]
         if not os.path.exists(save_path):
             os.makedirs(save_path)
-
         output_final = prediction.detach().cpu().squeeze().numpy()
         fig = sns.heatmap(data=output_final, cmap="rainbow").get_figure()
         fig.savefig(os.path.join(save_path, file_name + '_pred.png'), dpi=100)
