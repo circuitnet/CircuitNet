@@ -59,10 +59,10 @@ Model Training (under directory /sample_model_training). Models and logs are sav
 python train.py --args args/train.json
 ```
 
-Model Testing.
+Model Testing. **Remember to modify the "--pretrained" argument to point to the model saved in /work_dir.**
 
 ```python
-python test.py --args args/test.json
+python test.py --args args/test.json --pretrained PATH_TO_SAVED_MODEL
 ```
 
 Test results, including visualizations and report, are saved in /work_dir by default.
