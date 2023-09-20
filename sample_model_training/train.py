@@ -147,7 +147,7 @@ def train():
     epoch_loss = 0
     iter_num = 0
     print_freq = min(100, int(arg_dict['max_iters']/10))
-    save_freq = 1
+    save_freq = int(arg_dict['max_iters']/10)
 
     while iter_num < arg_dict['max_iters']:
         with tqdm(total=print_freq) as bar:
