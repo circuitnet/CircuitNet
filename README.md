@@ -67,9 +67,20 @@ python test.py --args args/test.json --pretrained PATH_TO_SAVED_MODEL
 
 Test results, including visualizations and report, are saved in /work_dir by default.
 
-The default setting use GPU, and if you don't have one, add "--cpu" argument.
+
+**The default setting use GPU, and if you don't have one, add "--cpu" argument.**
 
 For example:
 ```python
 python train.py --args args/train.json --cpu
 ```
+
+## Change Log.
+
+- 2023/9/13
+
+  First release.
+  
+- 2023/9/20
+
+  Update to ensure compatibility with Windows and CPU.
