@@ -11,8 +11,6 @@ git checkout icisc_2023
 ```
 
 
-Whole data will be released next week.
-
 ## Prerequisites
 
 Dependencies can be installed using pip:
@@ -68,3 +66,10 @@ python test.py --args args/test.json
 ```
 
 Test results, including visualizations and report, are saved in /work_dir by default.
+
+The default setting use GPU, and if you don't have one, add "--cpu" argument.
+
+For example:
+```python
+python train.py --args args/train.json --cpu
+```
