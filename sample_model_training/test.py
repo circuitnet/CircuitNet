@@ -53,13 +53,13 @@ def test():
     logger, log_dir = build_logger(arg_dict)
     logger.info(arg_dict)
 
-    if arg_dict['gpu'] is not None:
+    if arg_dict['cpu']:
+        device = torch.device("cpu")
+        logger.info('using cpu for training')
+    elif arg_dict['gpu'] is not None:
         torch.cuda.set_device(arg_dict['gpu'])
         device = torch.device("cuda", arg_dict['gpu'])
-        logger.info('Using gpu {} for testing'.format(arg_dict['gpu']))
-    else:
-        device = torch.device("cpu")
-        logger.info('using cpu for testing')
+        logger.info('using gpu {} for training'.format(arg_dict['gpu']))
         
     logger.info('===> Loading datasets')
     # Initialize dataset

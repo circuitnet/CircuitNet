@@ -109,15 +109,14 @@ def train():
 
     if gpu is not None:
         arg_dict['gpu'] = gpu
-        
-    if arg_dict['gpu'] is not None:
+    
+    if arg_dict['cpu']:
+        device = torch.device("cpu")
+        logger.info('using cpu for training')
+    elif arg_dict['gpu'] is not None:
         torch.cuda.set_device(arg_dict['gpu'])
         device = torch.device("cuda", arg_dict['gpu'])
         logger.info('using gpu {} for training'.format(arg_dict['gpu']))
-    else:
-        device = torch.device("cpu")
-        logger.info('using cpu for training')
-
 
     with open(os.path.join(log_dir, 'train.json'), 'wt') as f:
       json.dump(arg_dict, f, indent=4)
