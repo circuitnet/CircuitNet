@@ -18,7 +18,6 @@ from mmcv import scandir
 from scipy.stats import wasserstein_distance
 from skimage.metrics import normalized_root_mse
 import math
-import utils.metrics as metrics
 
 __all__ = ['psnr', 'ssim', 'nrms', 'emd', 'corrcoef']
 
@@ -369,8 +368,7 @@ def tensor2img(tensor, out_type=np.uint8, min_max=(0, 1)):
     return result
 
 
-def build_metric(metric_name):
-    return metrics.__dict__[metric_name.lower()]
+
 
 
 def build_roc_prc_metric(threshold=None, dataroot=None, ann_file=None, save_path=None, **kwargs):

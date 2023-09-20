@@ -15,14 +15,17 @@ class TestDataset(object):
         data_infos = []
         with open(self.ann_file, 'r') as fin:
             for line in fin:
-                feature, label, instance_count, instance_IR_drop, instance_name = line.strip().split(',')
-                if self.dataroot is not None:
-                    feature_path = os.path.join(self.dataroot, feature)
-                    label_path = os.path.join(self.dataroot, label)
-                    instance_count_path = os.path.join(self.dataroot, instance_count)
-                    instance_IR_drop_path = os.path.join(self.dataroot, instance_IR_drop)
-                    instance_name_path = os.path.join(self.dataroot, instance_name)
-                data_infos.append(dict(feature_path=feature_path, label_path=label_path, instance_count_path=instance_count_path, instance_IR_drop_path=instance_IR_drop_path, instance_name_path=instance_name_path))
+                if not line.strip():
+                    continue
+                else:
+                    feature, label, instance_count, instance_IR_drop, instance_name = line.strip().split(',')
+                    if self.dataroot is not None:
+                        feature_path = os.path.join(self.dataroot, feature)
+                        label_path = os.path.join(self.dataroot, label)
+                        instance_count_path = os.path.join(self.dataroot, instance_count)
+                        instance_IR_drop_path = os.path.join(self.dataroot, instance_IR_drop)
+                        instance_name_path = os.path.join(self.dataroot, instance_name)
+                    data_infos.append(dict(feature_path=feature_path, label_path=label_path, instance_count_path=instance_count_path, instance_IR_drop_path=instance_IR_drop_path, instance_name_path=instance_name_path))
         return data_infos
 
     def prepare_data(self, idx):

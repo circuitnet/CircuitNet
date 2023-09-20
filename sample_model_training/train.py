@@ -6,7 +6,7 @@ from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
 
 from datasets.build_dataset import build_dataset
-from utils.losses import build_loss
+import utils.losses as losses
 from models.build_model import build_model
 from utils.arg_parser import Parser
 from utils.logger import build_logger
@@ -20,7 +20,8 @@ def checkpoint(logger, model, epoch, save_path):
     torch.save({'state_dict': model.state_dict()}, model_out_path)
     logger.info("Checkpoint saved to {}".format(model_out_path))
         
-
+def build_loss(args):
+    return losses.__dict__[args.pop('loss_type')]()
 
 class CosineRestartLr(object):
     def __init__(self,
@@ -146,7 +147,7 @@ def train():
     epoch_loss = 0
     iter_num = 0
     print_freq = min(100, int(arg_dict['max_iters']/10))
-    save_freq = int(arg_dict['max_iters']/10)
+    save_freq = 1
 
     while iter_num < arg_dict['max_iters']:
         with tqdm(total=print_freq) as bar:

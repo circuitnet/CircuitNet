@@ -5,7 +5,7 @@ import torch
 from tqdm import tqdm
 import time
 from datasets.build_dataset import build_dataset
-from utils.metrics import build_metric
+import utils.metrics as metrics
 from models.build_model import build_model
 from utils.arg_parser import Parser
 from utils.logger import build_logger
@@ -20,6 +20,8 @@ def resize(input, out_shape):
     result = ndimage.zoom(input, (out_shape[0] / dimension[0], out_shape[1] / dimension[1]), order=3)
     return result
 
+def build_metric(metric_name):
+    return metrics.__dict__[metric_name.lower()]
 
 def test():
     
@@ -89,14 +91,13 @@ def test():
                 split_metrics[i][design_name] = [0, 0]
             start = False
         if arg_dict['cpu']:
-            start_time = time.time()
             input = feature
+            start_time = time.time()
+            prediction = model(input)
             end_time = time.time()
 
         else:
             input = feature.to(device)
-
-
             torch.cuda.synchronize()
             start_time = time.time()
             prediction = model(input)

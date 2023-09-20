@@ -20,11 +20,14 @@ class TrainDataset(object):
         data_infos = []
         with open(self.ann_file, 'r') as fin:
             for line in fin:
-                feature, label = line.strip().split(',')
-                if self.dataroot is not None:
-                    feature_path = os.path.join(self.dataroot, feature)
-                    label_path = os.path.join(self.dataroot, label)
-                data_infos.append(dict(feature_path=feature_path, label_path=label_path))
+                if not line.strip():
+                    continue
+                else:
+                    feature, label = line.strip().split(',')
+                    if self.dataroot is not None:
+                        feature_path = os.path.join(self.dataroot, feature)
+                        label_path = os.path.join(self.dataroot, label)
+                    data_infos.append(dict(feature_path=feature_path, label_path=label_path))
         return data_infos
 
     def prepare_data(self, idx):

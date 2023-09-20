@@ -7,5 +7,5 @@
     "in_channels": 2,
     "out_channels": 1,
     "eval_metric": ["NRMS", "SSIM", "corrcoef"],
-    "pretrained": "./work_dir/sample/train-20230912_184235/model_iters_400.pth"
+    "pretrained": "./work_dir/sample/train-20230920_183453/model_iters_1.pth"
 }

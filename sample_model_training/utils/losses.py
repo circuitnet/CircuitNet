@@ -3,11 +3,6 @@ import functools
 import torch.nn as nn
 import torch.nn.functional as F
 
-import utils.losses as losses
-
-
-def build_loss(args):
-    return losses.__dict__[args.pop('loss_type')]()
 
 __all__ = ['L1Loss', 'MSELoss']
 
