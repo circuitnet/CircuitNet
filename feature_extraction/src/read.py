@@ -50,10 +50,11 @@ class Paraser:
             data_ir = pd.read_csv(os.path.join(self.root_dir, 'static_ir'),sep='\s+')
         except Exception as e:
             print('one of the report not exists')
-            return 0       
-        
+            return 0    
+           
+        # 要预测的是vdd_drop和gnd_bounce。
         # parse static_ir 因为report开头的井号被当作单独一列，这里的key也往前移了一位。
-        # 即data_ir['inst_vdd']对应的数据是vdd_drop，而不是inst_vdd。vdd_drop被作为预测的target。
+        # 即data_ir['inst_vdd']对应的数据是vdd_drop，而不是inst_vdd。
         # 类似地，data_ir['pwr_net']对应的数据是location，而不是pwr_net，data_ir['location']对应的数据是instance name，而不是location。
         vdd_drop = data_ir['inst_vdd']     
         gnd_bounce = data_ir['vdd_drop']     

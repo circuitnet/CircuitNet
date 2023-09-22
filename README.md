@@ -25,6 +25,12 @@ Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work b
 
 ## IR Drop Prediction
 
+Here is the flow chart of this sample code. This is just one implementation, you are encouraged to explore your own implementation.
+
+<p align="center">
+  <img src="flow.png" height=300>
+</p>
+
 ### Data Preparation
 
 There are 2 sample data in /feature_extraction/data, which are the reports from GloryBolt, containing power, resistance and IR drop. We will use them for preprocessing and training.
@@ -77,10 +83,16 @@ python train.py --args args/train.json --cpu
 
 ## Change Log.
 
+- 2023/9/22
+
+  Update to include prediction for GND_bounce. 
+
+- 2023/9/20
+
+  Update to ensure compatibility with Windows and CPU.
+
 - 2023/9/13
 
   First release.
   
-- 2023/9/20
 
-  Update to ensure compatibility with Windows and CPU.
