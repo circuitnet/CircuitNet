@@ -4,8 +4,8 @@
     "dataroot": "../feature_extraction",
     "dataset_type": "TestDataset",
     "model_type": "FCN",
-    "in_channels": 2,
-    "out_channels": 1,
-    "eval_metric": ["NRMS", "SSIM", "corrcoef"],
-    "pretrained": "./work_dir/sample/train-20230920_183453/model_iters_1.pth"
+    "in_channels": 3,
+    "out_channels": 2,
+    "eval_metric": ["MAE", "corrcoef"],
+    "pretrained": "./work_dir/sample/train-20230922_143902/model_iters_50.pth"
 }

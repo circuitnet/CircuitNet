@@ -44,10 +44,6 @@ def divide_n(list_in, n):
 def pack_data(args, name_list, read_feature_list, read_label_list, save_path):
     feature_save_path = os.path.join(args.save_path, args.prefix, 'feature')
     label_save_path = os.path.join(args.save_path, args.prefix, 'label')
-    if not os.path.exists(feature_save_path):
-        os.makedirs(feature_save_path)
-    if not os.path.exists(label_save_path):
-        os.makedirs(label_save_path)
 
     for name in name_list:
         out_feature_list = []
@@ -64,9 +60,8 @@ def pack_data(args, name_list, read_feature_list, read_label_list, save_path):
         for label_name in read_label_list:
             name = os.path.basename(name)
             label = np.load(os.path.join(args.data_path, label_name, name))
-            temp += resize(label)
-
-        out_label_list.append(temp)
+            temp = resize(label)
+            out_label_list.append(temp)
 
         save_npy(out_label_list, label_save_path, name)
 
@@ -84,12 +79,19 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    feature_list = ['features/total_power', 'features/eff_res_VDD']
-    label_list = ['features/IR_drop']
+    feature_list = ['features/total_power', 'features/eff_res_VDD', 'features/eff_res_VSS']
+    label_list = ['features/VDD_drop', 'features/GND_bounce']
 
     name_list = get_sub_path(os.path.join(args.data_path, feature_list[0]))
     print('processing %s files' % len(name_list))
     save_path = os.path.join(args.save_path, args.prefix)
+
+    feature_save_path = os.path.join(args.save_path, args.prefix, 'feature')
+    label_save_path = os.path.join(args.save_path, args.prefix, 'label')
+    if not os.path.exists(feature_save_path):
+        os.makedirs(feature_save_path)
+    if not os.path.exists(label_save_path):
+        os.makedirs(label_save_path)
 
     nlist = divide_n(name_list, args.process_capacity)
     process = []

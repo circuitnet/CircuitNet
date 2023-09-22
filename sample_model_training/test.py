@@ -107,24 +107,23 @@ def test():
 
         instance_count = np.load(instance_count_path[0]).astype(int)
         instance_IR_drop = np.load(instance_IR_drop_path[0])
-        pred_nonresize = resize(prediction.detach().squeeze().cpu().numpy(), instance_count.shape)
-        pred_instance_ir = np.repeat(pred_nonresize.ravel(),instance_count.ravel())
-
+        pred_vdd_drop = resize(prediction[0,0,:,:].detach().cpu().numpy(), instance_count.shape)
+        pred_gnd_bounce = resize(prediction[0,1,:,:].detach().cpu().numpy(), instance_count.shape)
+        pred_instance_vdd_drop = np.repeat(pred_vdd_drop.ravel(),instance_count.ravel())
+        pred_instance_gnd_bounce = np.repeat(pred_gnd_bounce.ravel(),instance_count.ravel())
+        
         instance_name = np.load(instance_name_path[0], allow_pickle=True)
-        assert(len(pred_instance_ir)==len(instance_name))
+        assert(len(pred_instance_vdd_drop)==len(instance_name))
 
         file_name = os.path.splitext(os.path.basename(instance_IR_drop_path[0]))[0]
         with open('{}/{}'.format(log_dir, 'pred_static_ir_{}'.format(file_name)), 'w') as f:
-            f.write('vdd_drop inst_name\n')
-            for i,j in zip(pred_instance_ir, instance_name):
-                f.write('{} {}\n'.format(i,j))
+            f.write('vdd_drop gnd_bounce inst_name\n')
+            for i,j,k in zip(pred_instance_vdd_drop, pred_instance_gnd_bounce, instance_name):
+                f.write('{} {} {}\n'.format(i,j,k))
 
 
         for metric, metric_func in metrics.items():
-            if metric == 'corrcoef':
-                result = metric_func(instance_IR_drop, pred_instance_ir)
-            else:
-                result = metric_func(label, prediction.squeeze(1).cpu())
+            result = metric_func(instance_IR_drop, pred_instance_vdd_drop + pred_instance_gnd_bounce)
 
             logger.info('{}: {}'.format(metric, result))
             avg_metrics[metric] += result
@@ -134,14 +133,21 @@ def test():
         save_path = os.path.join(log_dir, 'test_result')
         if not os.path.exists(save_path):
             os.makedirs(save_path)
-        output_final = prediction.detach().cpu().squeeze().numpy()
-        fig = sns.heatmap(data=output_final, cmap="rainbow").get_figure()
-        fig.savefig(os.path.join(save_path, file_name + '_pred.png'), dpi=100)
-        plt.close()
-        fig = sns.heatmap(data=label.squeeze().numpy(), cmap="rainbow").get_figure()
-        fig.savefig(os.path.join(save_path, file_name + '_label.png'), dpi=100)
-        plt.close()
 
+        if arg_dict['plot']:
+            output_final = prediction.detach().cpu().squeeze().numpy()
+            fig = sns.heatmap(data=output_final[0,:,:], cmap="rainbow").get_figure()
+            fig.savefig(os.path.join(save_path, file_name + '_pred_vdd_drop.png'), dpi=100)
+            plt.close()
+            fig = sns.heatmap(data=output_final[1,:,:], cmap="rainbow").get_figure()
+            fig.savefig(os.path.join(save_path, file_name + '_pred_gnd_bounce.png'), dpi=100)
+            plt.close()
+            fig = sns.heatmap(data=label.squeeze().numpy()[0,:,:], cmap="rainbow").get_figure()
+            fig.savefig(os.path.join(save_path, file_name + '_label_vdd_drop.png'), dpi=100)
+            plt.close()
+            fig = sns.heatmap(data=label.squeeze().numpy()[1,:,:], cmap="rainbow").get_figure()
+            fig.savefig(os.path.join(save_path, file_name + '_label_gnd_bounce.png'), dpi=100)
+            plt.close()
         # if count==10:
         #     break
         count +=1
