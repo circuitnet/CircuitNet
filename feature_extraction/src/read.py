@@ -116,7 +116,7 @@ class Paraser:
         for i,j,k,l in zip(location_x, location_y, vdd_r, vss_r):
             x = i[1:]
             y = j
-            if i == '-' or j == '-' or k == '-':
+            if i == '-' or j == '-' or k == '-' or l == '-':
                 continue
             gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10)
             gcell_y = bisect.bisect_left(self.coordinate_y, float(y)-10)
