@@ -40,7 +40,7 @@ if __name__ == '__main__':
                         f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path, instance_name_path])
                         print(f'test: {i}')
                 else:
-                    if random.random <= split_ratio:
+                    if random.random() <= split_ratio:
                         f_train_csv.writerow([features_path, labels_path])
                         print(f'train: {i}')
                     else:
