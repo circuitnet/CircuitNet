@@ -1,4 +1,4 @@
-import os
+import os, gzip
 import json
 import numpy as np
 import torch
@@ -116,7 +116,7 @@ def test():
         assert(len(pred_instance_vdd_drop)==len(instance_name))
 
         file_name = os.path.splitext(os.path.basename(instance_IR_drop_path[0]))[0]
-        with open('{}/{}'.format(log_dir, 'pred_static_ir_{}'.format(file_name)), 'w') as f:
+        with gzip.open('{}/{}'.format(log_dir, 'pred_static_ir_{}'.format(file_name)), 'wt') as f:
             f.write('vdd_drop gnd_bounce inst_name\n')
             for i,j,k in zip(pred_instance_vdd_drop, pred_instance_gnd_bounce, instance_name):
                 f.write('{} {} {}\n'.format(i,j,k))
