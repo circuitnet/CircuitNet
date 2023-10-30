@@ -43,11 +43,13 @@ class Paraser:
 
         try:
             if 'nvdla' in self.root_dir:
-                data_power = pd.read_csv(os.path.join(self.root_dir, 'NV_nvdla.inst.power.rpt'),sep='\s+',header=1)
+                data_power = pd.read_csv(os.path.join(self.root_dir, 'NV_nvdla.inst.power.rpt.gz'),sep='\s+',header=1, compression='gzip')
+            elif 'Vortex' in self.root_dir:
+                data_power = pd.read_csv(os.path.join(self.root_dir, 'Vortex.inst.power.rpt.gz'),sep='\s+',header=1, compression='gzip')
             else:
-                data_power = pd.read_csv(os.path.join(self.root_dir, 'pulpino_top.inst.power.rpt'),sep='\s+',header=1)
-            data_r = pd.read_csv(os.path.join(self.root_dir, 'eff_res.rpt'),sep='\s+', low_memory=False)
-            data_ir = pd.read_csv(os.path.join(self.root_dir, 'static_ir'),sep='\s+')
+                data_power = pd.read_csv(os.path.join(self.root_dir, 'pulpino_top.inst.power.rpt.gz'),sep='\s+',header=1, compression='gzip')
+            data_r = pd.read_csv(os.path.join(self.root_dir, 'eff_res.rpt.gz'),sep='\s+', low_memory=False, compression='gzip')
+            data_ir = pd.read_csv(os.path.join(self.root_dir, 'static_ir.gz'),sep='\s+', compression='gzip')
         except Exception as e:
             print('one of the report not exists')
             return 0    
@@ -90,7 +92,8 @@ class Paraser:
         save(self.save_path, 'features/GND_bounce', self.save_name, self.GND_bounce_map)
         save(self.save_path, 'features/instance_count', self.save_name, self.instance_count)
         save(self.save_path, 'features/instance_IR_drop', self.save_name, self.instance_IR_drop)
-        save(self.save_path, 'features/instance_name', self.save_name, self.instance_name)
+        # 以npz形式保存以节省空间，
+        np.savez_compressed(os.path.join(self.save_path, 'features/instance_name', self.save_name), instance_name=self.instance_name)
 
         # parse inst.power.rpt
         power = data_power['total_power']

@@ -112,7 +112,7 @@ def test():
         pred_instance_vdd_drop = np.repeat(pred_vdd_drop.ravel(),instance_count.ravel())
         pred_instance_gnd_bounce = np.repeat(pred_gnd_bounce.ravel(),instance_count.ravel())
         
-        instance_name = np.load(instance_name_path[0], allow_pickle=True)
+        instance_name = np.load(instance_name_path[0])['instance_name']
         assert(len(pred_instance_vdd_drop)==len(instance_name))
 
         file_name = os.path.splitext(os.path.basename(instance_IR_drop_path[0]))[0]
