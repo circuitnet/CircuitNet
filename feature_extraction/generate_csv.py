@@ -26,23 +26,23 @@ if __name__ == '__main__':
             f_test_csv = csv.writer(f_test, delimiter=',')
 
             for i, features_name in enumerate(features):
-                features_path = 'training_set/sample/feature/' + features_name
-                labels_path = 'training_set/sample/label/' + features_name
-                instance_count_path = 'out/features/instance_count/' + features_name
-                instance_IR_drop_path = 'out/features/instance_IR_drop/' + features_name
-                instance_name_path = 'out/features/instance_name/' + features_name
+                features_path = 'training_set/sample/feature/{}'.format(features_name)
+                labels_path = 'training_set/sample/label/{}'.format(features_name)
+                instance_count_path = 'out/features/instance_count/{}'.format(features_name)
+                instance_IR_drop_path = 'out/features/instance_IR_drop/{}'.format(features_name)
+                instance_name_path = 'out/features/instance_name/{}z'.format(features_name[:-1])
                 if len(features) == 2:
                     if i == 0: 
                         f_train_csv.writerow([features_path, labels_path])
                         f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path, instance_name_path])
-                        print(f'train: {i}')
+                        print('train: {}'.format(i))
                     else:
                         f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path, instance_name_path])
-                        print(f'test: {i}')
+                        print('test: {}'.format(i))
                 else:
                     if random.random() <= split_ratio:
                         f_train_csv.writerow([features_path, labels_path])
-                        print(f'train: {i}')
+                        print('train: {}'.format(i))
                     else:
                         f_test_csv.writerow([features_path, labels_path, instance_count_path, instance_IR_drop_path, instance_name_path])
-                        print(f'test: {i}')
+                        print('test: {}'.format(i))

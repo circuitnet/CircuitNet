@@ -92,8 +92,11 @@ class Paraser:
         save(self.save_path, 'features/GND_bounce', self.save_name, self.GND_bounce_map)
         save(self.save_path, 'features/instance_count', self.save_name, self.instance_count)
         save(self.save_path, 'features/instance_IR_drop', self.save_name, self.instance_IR_drop)
-        # 以npz形式保存以节省空间，
-        np.savez_compressed(os.path.join(self.save_path, 'features/instance_name', self.save_name), instance_name=self.instance_name)
+        # 以npz形式保存以节省空间
+        instance_name_save_path = os.path.join(self.save_path, 'features/instance_name', self.save_name)
+        if not os.path.exists(os.path.dirname(instance_name_save_path)):
+            os.makedirs(os.path.dirname(instance_name_save_path))
+        np.savez_compressed(instance_name_save_path, instance_name=self.instance_name)
 
         # parse inst.power.rpt
         power = data_power['total_power']

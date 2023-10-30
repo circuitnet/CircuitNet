@@ -31,5 +31,5 @@ class Parser(object):
 
         # Testing
 
-        self.parser.add_argument('--plot', default=True, help='Plot the prediction and label in testing.')
+        self.parser.add_argument('--plot', default=False, help='Plot the prediction and label in testing.')
         self.parser.add_argument('--eval_metric', default=["MAE", "corrcoef"], help='Metrics.')
