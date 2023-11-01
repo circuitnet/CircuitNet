@@ -13,6 +13,7 @@ class ArgParaser(object):
         self.parser.add_argument('--process_capacity', default=2, help='number of process for multi process')
         self.parser.add_argument('--plot', default=True, help='plot the results in $save_path/visual')
         self.parser.add_argument('--debug', default=False, help='disable multi process to use pdb')
+        self.parser.add_argument('--final_test', default=False, help='prevent using static_ir to mimic the final environment')
 
 
 def read(read_list, arg):

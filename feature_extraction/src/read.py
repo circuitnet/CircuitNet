@@ -12,6 +12,7 @@ class Paraser:
         self.save_name = save_name
         self.save_path = arg.save_path
         self.plot = arg.plot
+        self.final_test = arg.final_test
         
         self.coordinate_x = []
         self.coordinate_y = []
@@ -58,40 +59,58 @@ class Paraser:
         # parse static_ir 因为report开头的井号被当作单独一列，这里的key也往前移了一位。
         # 即data_ir['inst_vdd']对应的数据是vdd_drop，而不是inst_vdd。
         # 类似地，data_ir['pwr_net']对应的数据是location，而不是pwr_net，data_ir['location']对应的数据是instance name，而不是location。
-        vdd_drop = data_ir['inst_vdd']     
-        gnd_bounce = data_ir['vdd_drop']     
-        location = data_ir['pwr_net'] 
-        name = data_ir['location']
+        if self.final_test:
+            location = data_ir['pwr_net'] 
+            name = data_ir['location']
 
-        max_x = 0
-        max_y = 0
-        for i,j,k,l in zip(location, vdd_drop,gnd_bounce, name):
-            x, y = i.split(',')
-            gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10) # -10是因为版图周围有一圈10um的padding。
-            gcell_y = bisect.bisect_left(self.coordinate_y, float(y)-10)
-            if gcell_x > max_x:
-                max_x = gcell_x
-            if gcell_y > max_y: 
-                max_y = gcell_y
-            if j > self.VDD_drop_map[gcell_x, gcell_y]:
-                self.VDD_drop_map[gcell_x, gcell_y] = j
-            if k > self.GND_bounce_map[gcell_x, gcell_y]:
-                self.GND_bounce_map[gcell_x, gcell_y] = k
+            max_x = 0
+            max_y = 0
+            for i,j in zip(location, name):
+                x, y = i.split(',')
+                gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10) # -10是因为版图周围有一圈10um的padding。
+                gcell_y = bisect.bisect_left(self.coordinate_y, float(y)-10)
+                if gcell_x > max_x:
+                    max_x = gcell_x
+                if gcell_y > max_y: 
+                    max_y = gcell_y
 
-            self.instance_count[gcell_x, gcell_y] += 1
+                self.instance_name[gcell_x, gcell_y].append(j)
+                self.instance_count[gcell_x, gcell_y] += 1
+        else:
+            vdd_drop = data_ir['inst_vdd']     
+            gnd_bounce = data_ir['vdd_drop']     
+            location = data_ir['pwr_net'] 
+            name = data_ir['location']
 
-            self.instance_IR_drop[gcell_x, gcell_y].append(j+k)
-            self.instance_name[gcell_x, gcell_y].append(l)
+            max_x = 0
+            max_y = 0
+            for i,j,k,l in zip(location, vdd_drop,gnd_bounce, name):
+                x, y = i.split(',')
+                gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10) # -10是因为版图周围有一圈10um的padding。
+                gcell_y = bisect.bisect_left(self.coordinate_y, float(y)-10)
+                if gcell_x > max_x:
+                    max_x = gcell_x
+                if gcell_y > max_y: 
+                    max_y = gcell_y
+                if j > self.VDD_drop_map[gcell_x, gcell_y]:
+                    self.VDD_drop_map[gcell_x, gcell_y] = j
+                if k > self.GND_bounce_map[gcell_x, gcell_y]:
+                    self.GND_bounce_map[gcell_x, gcell_y] = k
 
-        self.VDD_drop_map = self.VDD_drop_map[0:max_x+1,0:max_y+1]
-        self.GND_bounce_map = self.GND_bounce_map[0:max_x+1,0:max_y+1]
+                self.instance_IR_drop[gcell_x, gcell_y].append(j+k)
+                self.instance_name[gcell_x, gcell_y].append(l)
+                self.instance_count[gcell_x, gcell_y] += 1
+
+            self.VDD_drop_map = self.VDD_drop_map[0:max_x+1,0:max_y+1]
+            self.GND_bounce_map = self.GND_bounce_map[0:max_x+1,0:max_y+1]
+            self.instance_IR_drop = np.concatenate(self.instance_IR_drop.ravel())
+            save(self.save_path, 'features/VDD_drop', self.save_name, self.VDD_drop_map)
+            save(self.save_path, 'features/GND_bounce', self.save_name, self.GND_bounce_map)
+            save(self.save_path, 'features/instance_IR_drop', self.save_name, self.instance_IR_drop)
+
         self.instance_count = self.instance_count[0:max_x+1,0:max_y+1]
-        self.instance_IR_drop = np.concatenate(self.instance_IR_drop.ravel())
         self.instance_name = np.concatenate(self.instance_name.ravel())
-        save(self.save_path, 'features/VDD_drop', self.save_name, self.VDD_drop_map)
-        save(self.save_path, 'features/GND_bounce', self.save_name, self.GND_bounce_map)
         save(self.save_path, 'features/instance_count', self.save_name, self.instance_count)
-        save(self.save_path, 'features/instance_IR_drop', self.save_name, self.instance_IR_drop)
         # 以npz形式保存以节省空间
         instance_name_save_path = os.path.join(self.save_path, 'features/instance_name', self.save_name)
         if not os.path.exists(os.path.dirname(instance_name_save_path)):
