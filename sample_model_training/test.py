@@ -115,11 +115,13 @@ def test():
         instance_name = np.load(instance_name_path[0])['instance_name'] # load npz
         assert(len(pred_instance_vdd_drop)==len(instance_name))
 
+        # 输出预测的static_ir report
+        # 文件为2列，第一列是vdd_drop+gnd_bounce，第二列是inst_name，不需要表头。
+        # 文件名为pred_static_ir_{case name}(.gz)。建议按下面的方式以gzip形式输出，文件名加上.gz。若不压缩则不需要.gz。
         file_name = os.path.splitext(os.path.basename(instance_IR_drop_path[0]))[0]
         with gzip.open('{}/{}'.format(log_dir, 'pred_static_ir_{}.gz'.format(file_name)), 'wt') as f:
-            f.write('vdd_drop gnd_bounce inst_name\n')
             for i,j,k in zip(pred_instance_vdd_drop, pred_instance_gnd_bounce, instance_name):
-                f.write('{} {} {}\n'.format(i,j,k))
+                f.write('{} {}\n'.format(i+j,k))
 
 
         for metric, metric_func in metrics.items():
