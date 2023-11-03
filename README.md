@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 PyTorch is not included in requirement.txt, and you could install it following the instruction on PyTorch homepage [https://pytorch.org/](https://pytorch.org/).
 
-Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work but are not tested.
+Our experiments run on Python 3.9 and PyTorch 1.11. Also works on the environment on test server, which has Python 3.11 and PyTorch 2.0.
 
 ## IR Drop Prediction
 
