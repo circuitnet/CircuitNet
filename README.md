@@ -82,6 +82,9 @@ python train.py --args args/train.json --cpu
 ```
 
 ## Change Log.
+- 2023/11/3
+
+  Update the format of the output file.
 
 - 2023/9/22
 
