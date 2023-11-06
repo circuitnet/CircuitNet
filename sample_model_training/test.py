@@ -54,7 +54,9 @@ def test():
 
     logger, log_dir = build_logger(arg_dict)
     logger.info(arg_dict)
-
+    if not os.path.exists(os.path.join(log_dir, 'pred_static_ir_report')):
+        os.makedirs(os.path.join(log_dir, 'pred_static_ir_report'))
+        
     if arg_dict['cpu']:
         device = torch.device("cpu")
         logger.info('using cpu for training')

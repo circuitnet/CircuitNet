@@ -82,6 +82,16 @@ python train.py --args args/train.json --cpu
 ```
 
 ## Change Log.
+- 2023/11/6
+
+  在/feature_extraction/process_data.py 和 /sample_model_training/test.py 中添加了final_test 这一argument。
+
+  final_test=False:
+  之前的测试流程, 使用了static_ir中的信息, 以保证输出的report行数和golden的static_ir相同, 模型测试时可以直接计算metric。
+        
+  final_test=True:
+  最终的测试流程中不提供staitc_ir这个文件, 并且不要求输出的report行数和golden的static_ir相同, 模型测试时只输出report, 另外用测试脚本计算metric。
+
 - 2023/11/3
 
   Update the format of the output file.
