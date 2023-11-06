@@ -50,33 +50,64 @@ class Paraser:
             else:
                 data_power = pd.read_csv(os.path.join(self.root_dir, 'pulpino_top.inst.power.rpt.gz'),sep='\s+',header=1, compression='gzip')
             data_r = pd.read_csv(os.path.join(self.root_dir, 'eff_res.rpt.gz'),sep='\s+', low_memory=False, compression='gzip')
-            data_ir = pd.read_csv(os.path.join(self.root_dir, 'static_ir.gz'),sep='\s+', compression='gzip')
+            if not self.final_test:
+                data_ir = pd.read_csv(os.path.join(self.root_dir, 'static_ir.gz'),sep='\s+', compression='gzip')
         except Exception as e:
             print('one of the report not exists')
             return 0    
-           
-        # 要预测的是vdd_drop和gnd_bounce。
-        # parse static_ir 因为report开头的井号被当作单独一列，这里的key也往前移了一位。
-        # 即data_ir['inst_vdd']对应的数据是vdd_drop，而不是inst_vdd。
-        # 类似地，data_ir['pwr_net']对应的数据是location，而不是pwr_net，data_ir['location']对应的数据是instance name，而不是location。
-        if self.final_test:
-            location = data_ir['pwr_net'] 
-            name = data_ir['location']
 
-            max_x = 0
-            max_y = 0
-            for i,j in zip(location, name):
-                x, y = i.split(',')
-                gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10) # -10是因为版图周围有一圈10um的padding。
+        max_x = 0
+        max_y = 0
+        # parse inst.power.rpt
+        power = data_power['total_power']
+        bbox = data_power['bbox']
+        name = data_power['*inst_name']
+        if self.final_test:
+            for i,j,k in zip(bbox, power, name):
+                x1, y1, x2, y2 = i[1:-1].split(',')
+                x = (float(x1)+float(x2))/2
+                y = (float(y1)+float(y2))/2
+                gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10)
                 gcell_y = bisect.bisect_left(self.coordinate_y, float(y)-10)
                 if gcell_x > max_x:
                     max_x = gcell_x
                 if gcell_y > max_y: 
                     max_y = gcell_y
-
-                self.instance_name[gcell_x, gcell_y].append(j)
+                self.total_power_map[gcell_x, gcell_y] += j
+                self.instance_name[gcell_x, gcell_y].append(k)
                 self.instance_count[gcell_x, gcell_y] += 1
+            self.total_power_map = self.total_power_map[0:max_x+1,0:max_y+1]
+            save(self.save_path, 'features/instance_count_from_power_rpt', self.save_name, self.instance_count)
+            self.instance_name = np.concatenate(self.instance_name.ravel())
+            # 以npz形式保存以节省空间
+            instance_name_save_path = os.path.join(self.save_path, 'features/instance_name_from_power_rpt', self.save_name)
+            if not os.path.exists(os.path.dirname(instance_name_save_path)):
+                os.makedirs(os.path.dirname(instance_name_save_path))
+            np.savez_compressed(instance_name_save_path, instance_name=self.instance_name)
         else:
+            for i,j in zip(bbox, power):
+                x1, y1, x2, y2 = i[1:-1].split(',')
+                x = (float(x1)+float(x2))/2
+                y = (float(y1)+float(y2))/2
+                gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10)
+                gcell_y = bisect.bisect_left(self.coordinate_y, float(y)-10)
+                if gcell_x > max_x:
+                    max_x = gcell_x
+                if gcell_y > max_y: 
+                    max_y = gcell_y
+                self.total_power_map[gcell_x, gcell_y] += j
+                self.instance_name[gcell_x, gcell_y].append(k)
+                self.instance_count[gcell_x, gcell_y] += 1
+            self.total_power_map = self.total_power_map[0:max_x+1,0:max_y+1]
+        save(self.save_path, 'features/total_power', self.save_name, self.total_power_map)
+
+
+        # 要预测的是vdd_drop和gnd_bounce。
+        # parse static_ir 因为report开头的井号被当作单独一列，这里的key也往前移了一位。
+        # 即data_ir['inst_vdd']对应的数据是vdd_drop，而不是inst_vdd。
+        # 类似地，data_ir['pwr_net']对应的数据是location，而不是pwr_net，data_ir['location']对应的数据是instance name，而不是location。
+        
+        if not self.final_test: # 最终测试的时候没有static_ir这个文件。
             vdd_drop = data_ir['inst_vdd']     
             gnd_bounce = data_ir['vdd_drop']     
             location = data_ir['pwr_net'] 
@@ -88,10 +119,7 @@ class Paraser:
                 x, y = i.split(',')
                 gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10) # -10是因为版图周围有一圈10um的padding。
                 gcell_y = bisect.bisect_left(self.coordinate_y, float(y)-10)
-                if gcell_x > max_x:
-                    max_x = gcell_x
-                if gcell_y > max_y: 
-                    max_y = gcell_y
+
                 if j > self.VDD_drop_map[gcell_x, gcell_y]:
                     self.VDD_drop_map[gcell_x, gcell_y] = j
                 if k > self.GND_bounce_map[gcell_x, gcell_y]:
@@ -108,29 +136,14 @@ class Paraser:
             save(self.save_path, 'features/GND_bounce', self.save_name, self.GND_bounce_map)
             save(self.save_path, 'features/instance_IR_drop', self.save_name, self.instance_IR_drop)
 
-        self.instance_count = self.instance_count[0:max_x+1,0:max_y+1]
-        self.instance_name = np.concatenate(self.instance_name.ravel())
-        save(self.save_path, 'features/instance_count', self.save_name, self.instance_count)
-        # 以npz形式保存以节省空间
-        instance_name_save_path = os.path.join(self.save_path, 'features/instance_name', self.save_name)
-        if not os.path.exists(os.path.dirname(instance_name_save_path)):
-            os.makedirs(os.path.dirname(instance_name_save_path))
-        np.savez_compressed(instance_name_save_path, instance_name=self.instance_name)
-
-        # parse inst.power.rpt
-        power = data_power['total_power']
-        bbox = data_power['bbox']
-
-        for i,j in zip(bbox, power):
-            x1, y1, x2, y2 = i[1:-1].split(',')
-            x = (float(x1)+float(x2))/2
-            y = (float(y1)+float(y2))/2
-            gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10)
-            gcell_y = bisect.bisect_left(self.coordinate_y, float(y)-10)
-            self.total_power_map[gcell_x, gcell_y] += j
-        self.total_power_map = self.total_power_map[0:max_x+1,0:max_y+1]
-
-        save(self.save_path, 'features/total_power', self.save_name, self.total_power_map)
+            self.instance_count = self.instance_count[0:max_x+1,0:max_y+1]
+            save(self.save_path, 'features/instance_count', self.save_name, self.instance_count)
+            self.instance_name = np.concatenate(self.instance_name.ravel())
+            # 以npz形式保存以节省空间
+            instance_name_save_path = os.path.join(self.save_path, 'features/instance_name', self.save_name)
+            if not os.path.exists(os.path.dirname(instance_name_save_path)):
+                os.makedirs(os.path.dirname(instance_name_save_path))
+            np.savez_compressed(instance_name_save_path, instance_name=self.instance_name)
 
         # parse eff_res.rpt
         vdd_r = data_r['loop_r']

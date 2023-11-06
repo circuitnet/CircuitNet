@@ -7,5 +7,6 @@
     "in_channels": 3,
     "out_channels": 2,
     "eval_metric": ["MAE", "corrcoef"],
-    "pretrained": "./work_dir/sample/train-20230922_164619/model_iters_1000.pth"
+    "pretrained": "./work_dir/sample/train-20230922_164619/model_iters_1000.pth",
+    "final_test": "true"
 }

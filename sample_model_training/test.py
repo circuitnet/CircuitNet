@@ -105,38 +105,40 @@ def test():
             end_time = time.time()
         logger.info('#{} {}, inference time {}s'.format(count, os.path.basename(instance_IR_drop_path[0][:-4]), end_time - start_time))
 
-        instance_count = np.load(instance_count_path[0]).astype(int)
+        if not arg.final_test:
+            instance_count = np.load(os.path.join(instance_count_path[0])).astype(int)
+            instance_name = np.load(instance_name_path[0])['instance_name'] # load npz
+        else: # final test, get instance name from power rpt
+            instance_count = np.load(instance_count_path[0].replace('instance_count', 'instance_count_from_power_rpt')).astype(int)
+            instance_name = np.load(instance_name_path[0].replace('instance_name', 'instance_name_from_power_rpt'))['instance_name'] # load npz
+            
         instance_IR_drop = np.load(instance_IR_drop_path[0])
         pred_vdd_drop = resize(prediction[0,0,:,:].detach().cpu().numpy(), instance_count.shape)
         pred_gnd_bounce = resize(prediction[0,1,:,:].detach().cpu().numpy(), instance_count.shape)
         pred_instance_vdd_drop = np.repeat(pred_vdd_drop.ravel(),instance_count.ravel())
         pred_instance_gnd_bounce = np.repeat(pred_gnd_bounce.ravel(),instance_count.ravel())
         
-        instance_name = np.load(instance_name_path[0])['instance_name'] # load npz
-        assert(len(pred_instance_vdd_drop)==len(instance_name))
-
         # 输出预测的static_ir report
         # 文件为2列，第一列是vdd_drop+gnd_bounce，第二列是inst_name，不需要表头。
         # 文件名为pred_static_ir_{case name}(.gz)。建议按下面的方式以gzip形式输出，文件名加上.gz。若不压缩则不需要.gz。
         file_name = os.path.splitext(os.path.basename(instance_IR_drop_path[0]))[0]
-        with gzip.open('{}/{}'.format(log_dir, 'pred_static_ir_{}.gz'.format(file_name)), 'wt') as f:
+        with gzip.open('{}/{}/{}'.format(log_dir, 'pred_static_ir_report', 'pred_static_ir_{}.gz'.format(file_name)), 'wt') as f:
             for i,j,k in zip(pred_instance_vdd_drop, pred_instance_gnd_bounce, instance_name):
                 f.write('{} {}\n'.format(i+j,k))
 
+        if not arg.final_test:
+            for metric, metric_func in metrics.items():
+                result = metric_func(instance_IR_drop, pred_instance_vdd_drop + pred_instance_gnd_bounce)
 
-        for metric, metric_func in metrics.items():
-            result = metric_func(instance_IR_drop, pred_instance_vdd_drop + pred_instance_gnd_bounce)
-
-            logger.info('{}: {}'.format(metric, result))
-            avg_metrics[metric] += result
-            split_metrics[metric][design_name][0] = split_metrics[metric][design_name][0] + result
-            split_metrics[metric][design_name][1] = split_metrics[metric][design_name][1] + 1
-
-        save_path = os.path.join(log_dir, 'test_result')
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
+                logger.info('{}: {}'.format(metric, result))
+                avg_metrics[metric] += result
+                split_metrics[metric][design_name][0] = split_metrics[metric][design_name][0] + result
+                split_metrics[metric][design_name][1] = split_metrics[metric][design_name][1] + 1
 
         if arg_dict['plot']:
+            save_path = os.path.join(log_dir, 'test_result_visualization')
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
             output_final = prediction.detach().cpu().squeeze().numpy()
             fig = sns.heatmap(data=output_final[0,:,:], cmap="rainbow").get_figure()
             fig.savefig(os.path.join(save_path, file_name + '_pred_vdd_drop.png'), dpi=100)
@@ -154,14 +156,16 @@ def test():
         #     break
         count +=1
 
-    
-    for metric, avg_metric in avg_metrics.items():
-        logger.info("===> Avg. {}: {:.4f}".format(metric, avg_metric / len(dataset))) 
-    for metric, design in split_metrics.items():
-        if len(design) == 1:
-            continue
-        for name, values in design.items():
-            logger.info("===> {} {}: {:.4f}".format(name, metric, values[0] / values[1])) 
+    if not arg.final_test:
+        for metric, avg_metric in avg_metrics.items():
+            logger.info("===> Avg. {}: {:.4f}".format(metric, avg_metric / len(dataset))) 
+        for metric, design in split_metrics.items():
+            if len(design) == 1:
+                continue
+            for name, values in design.items():
+                logger.info("===> {} {}: {:.4f}".format(name, metric, values[0] / values[1]))
+                 
+    logger.info("Predicted static_ir report saved in {}/{}.".format(log_dir, 'pred_static_ir_report')) 
 
 
 if __name__ == "__main__":

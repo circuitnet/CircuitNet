@@ -8,7 +8,7 @@ class Parser(object):
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('--save_path', default='work_dir/sample/', help='Save path.')
         self.parser.add_argument('--args', default=None, help='Path to json arguments file.')
-        self.parser.add_argument('--cpu', action='store_true', help='Use CPU for training or testing.')
+        self.parser.add_argument('--cpu', action='store_true', help='Use CPU for training or testing, overwrite gpu argument.')
         self.parser.add_argument('--gpu', default=None, help='Specify GPU ID to use.')
 
         self.parser.add_argument('--dataroot', default='../feature_extraction', help='Path to data')
@@ -33,3 +33,4 @@ class Parser(object):
 
         self.parser.add_argument('--plot', default=False, help='Plot the prediction and label in testing.')
         self.parser.add_argument('--eval_metric', default=["MAE", "corrcoef"], help='Metrics.')
+        self.parser.add_argument('--final_test', default=False, help='prevent using static_ir to mimic the final environment.')
