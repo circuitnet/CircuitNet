@@ -96,8 +96,6 @@ class Paraser:
                 if gcell_y > max_y: 
                     max_y = gcell_y
                 self.total_power_map[gcell_x, gcell_y] += j
-                self.instance_name[gcell_x, gcell_y].append(k)
-                self.instance_count[gcell_x, gcell_y] += 1
             self.total_power_map = self.total_power_map[0:max_x+1,0:max_y+1]
         save(self.save_path, 'features/total_power', self.save_name, self.total_power_map)
 
