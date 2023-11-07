@@ -164,7 +164,7 @@ For any questions, please do not hesitate to contact us.
 
 ```
 Zhuomin Chai: zhuominchai@whu.edu.cn
-Xun Jiang: jiangx2015@gmail.com
+Xun Jiang: xunjiang@stu.pku.edu.cn
 Yuxiang Zhao: yuxiangzhao@stu.pku.edu.cn
 Yibo Lin: yibolin@pku.edu.cn
 ```
