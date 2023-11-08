@@ -33,7 +33,7 @@ if __name__ == '__main__':
         os.makedirs(arg.save_path)
 
 
-    read_list = os.listdir(arg.data_root)
+    read_list = os.listdir(arg.data_root)[0:100]
     nlist = divide_n(read_list, arg.process_capacity) 
 
     if arg.debug:

@@ -111,8 +111,6 @@ class Paraser:
             location = data_ir['pwr_net'] 
             name = data_ir['location']
 
-            max_x = 0
-            max_y = 0
             for i,j,k,l in zip(location, vdd_drop,gnd_bounce, name):
                 x, y = i.split(',')
                 gcell_x = bisect.bisect_left(self.coordinate_x, float(x)-10) # -10是因为版图周围有一圈10um的padding。
