@@ -77,6 +77,7 @@ class Paraser:
                 self.instance_name[gcell_x, gcell_y].append(k)
                 self.instance_count[gcell_x, gcell_y] += 1
             self.total_power_map = self.total_power_map[0:max_x+1,0:max_y+1]
+            self.instance_count = self.instance_count[0:max_x+1,0:max_y+1]
             save(self.save_path, 'features/instance_count_from_power_rpt', self.save_name, self.instance_count)
             self.instance_name = np.concatenate(self.instance_name.ravel())
             # 以npz形式保存以节省空间
