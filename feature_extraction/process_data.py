@@ -3,7 +3,7 @@ from multiprocessing import Process
 import argparse
 
 from src.util import divide_n
-from src.read import ReadInnovusOutput, read_lef
+from src.read import ReadInnovusOutput, read_lef, read_lef_pin_map
 
 
 class Paraser(object):
@@ -48,8 +48,10 @@ if __name__ == '__main__':
     arg = argp.parser.parse_args()
     os.system('mkdir -p %s ' % (os.path.dirname(arg.save_path)))
     lef_dic = {}
+    lef_dic_jnet = {}
     for i in arg.lef_path:
         lef_dic = read_lef(i, lef_dic, arg.unit)
+        lef_dic_jnet = read_lef_pin_map(i, lef_dic_jnet, arg.unit)
 
     read_list = os.listdir(arg.data_root)
     nlist = divide_n(read_list, arg.process_capacity) 
@@ -59,7 +61,7 @@ if __name__ == '__main__':
     else:
         process = []
         for divided_list in nlist:
-            p = Process(target=read, args=(divided_list, arg, lef_dic))
+            p = Process(target=read, args=(divided_list, arg, lef_dic, lef_dic_jnet))
             process.append(p)
         for p in process:
             p.start()

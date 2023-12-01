@@ -56,14 +56,53 @@ def read_lef(path, lef_dict, unit):
 
     return lef_dict
 
+
+def read_lef_pin_map(path, lef_dic, unit):
+    with open(path, 'r') as read_file:
+        cell_name = ''
+        pin_name = ''
+        READ_MACRO = False
+
+        for line in read_file:
+            if line.lstrip().startswith('MACRO'):
+                cell_name = line.split()[1]
+                lef_dic[cell_name] = {}
+                lef_dic[cell_name]['pin'] = {}
+                READ_MACRO = True
+
+            if READ_MACRO:
+
+                if line.lstrip().startswith('SIZE'):
+                    l = re.findall(r'-?\d+\.?\d*e?-?\d*?', line)
+                    lef_dic[cell_name]['size'] = [unit * float(l[0]), unit * float(l[1])]
+
+                elif line.lstrip().startswith('PIN') or line.lstrip().startswith('OBS'):
+                    if line.lstrip().startswith('OBS'):
+                        pin_name = 'OBS'
+                    else:
+                        pin_name = line.split()[1]
+                    lef_dic[cell_name]['pin'][pin_name] = {}
+
+                elif line.lstrip().startswith('LAYER'):
+                    pin_layer = line.split()[1]
+                    lef_dic[cell_name]['pin'][pin_name][pin_layer] = []
+
+                elif line.lstrip().startswith('RECT'):
+                    l = line.split()
+                    lef_dic[cell_name]['pin'][pin_name][pin_layer].append([float(l[1])* unit,float(l[2])* unit,float(l[3])* unit,float(l[4])* unit])
+
+    return lef_dic
+
+
 class ReadInnovusOutput:
-    def __init__(self, root_dir, arg, save_name, lef_dict):
+    def __init__(self, root_dir, arg, save_name, lef_dict,,lef_dict_jnet=None):
         self.save_name = save_name
         self.save_path = arg.save_path
         self.unit = arg.unit
         
         # Path for LEF/DEF and reports from Innovus.
         self.lef_dict = lef_dict
+        self.lef_dict_jnet = lef_dict_jnet
         self.root_dir = root_dir 
         self.place_def_path = os.path.join(root_dir, arg.place_def_name)
         self.route_def_path = os.path.join(root_dir, arg.route_def_name)
@@ -266,6 +305,33 @@ class ReadInnovusOutput:
                 READ_GCELL = True
             elif line.startswith("VIAS"):
                 READ_GCELL = False
+                if len(GCELLX) <= 2:
+                    raise ValueError
+                if int(GCELLX[0][0]) < int(GCELLX[-1][0]):
+                    GCELLX.reverse()
+                    GCELLY.reverse()
+
+                top = GCELLY.pop()
+                for i in range(top[1]-1):
+                    self.gcell_coordinate_y.append(top[0]+(i+1)*top[2])
+                for i in range(len(GCELLY)):
+                    top = GCELLY.pop()
+                    for i in range(top[1]):
+                        self.gcell_coordinate_y.append(self.gcell_coordinate_y[-1]+top[2])
+                self.gcell_coordinate_y.pop()
+                self.gcell_coordinate_y = np.array(self.gcell_coordinate_y)
+
+
+                top = GCELLX.pop()
+                for i in range(top[1]-1):
+                    self.gcell_coordinate_x.append(top[0]+(i+1)*top[2])
+                for i in range(len(GCELLX)):
+                    top = GCELLX.pop()
+                    for i in range(top[1]):
+                        self.gcell_coordinate_x.append(self.gcell_coordinate_x[-1]+top[2])
+                self.gcell_coordinate_x.pop()
+                self.gcell_coordinate_x = np.array(self.gcell_coordinate_x)
+
 
             if READ_GCELL:   # get gcell_coordinate
                 instance = line.split()
@@ -276,30 +342,10 @@ class ReadInnovusOutput:
                     if 'Y' in line:
                         self.gcell_size[1] += int(instance[4])
                         GCELLY.append(gcell)
-                        if '-' in line:
-                            top = GCELLY.pop()
-                            for i in range(top[1]-1):
-                                self.gcell_coordinate_y.append(top[0]+(i+1)*top[2])
-                            for i in range(len(GCELLY)):
-                                top = GCELLY.pop()
-                                for i in range(top[1]):
-                                    self.gcell_coordinate_y.append(self.gcell_coordinate_y[-1]+top[2])
-                            self.gcell_coordinate_y.pop()
-                            self.gcell_coordinate_y = np.array(self.gcell_coordinate_y)
 
                     elif 'X' in line:
                         self.gcell_size[0] += int(instance[4])
                         GCELLX.append(gcell)
-                        if '-' in line:
-                            top = GCELLX.pop()
-                            for i in range(top[1]-1):
-                                self.gcell_coordinate_x.append(top[0]+(i+1)*top[2])
-                            for i in range(len(GCELLX)):
-                                top = GCELLX.pop()
-                                for i in range(top[1]):
-                                    self.gcell_coordinate_x.append(self.gcell_coordinate_x[-1]+top[2])
-                            self.gcell_coordinate_x.pop()
-                            self.gcell_coordinate_x = np.array(self.gcell_coordinate_x)
 
             if READ_MACROS :                                            # get route_instance_dict
                 if "FIXED" in line or "PLACED" in line:
@@ -521,8 +567,6 @@ class ReadInnovusOutput:
                 READ_MACROS = False
                 READ_NETS = False
                 READ_PINS = False
-                reverse = False
-                net = ''
                 for line in read_file:
                     line = line.lstrip()
                     if line.startswith("DIEAREA"):
@@ -542,24 +586,37 @@ class ReadInnovusOutput:
                         READ_PINS = False
                     elif line.startswith("GCELLGRID"):
                         READ_GCELL = True
-                        if '-' in line:
-                            reverse = True
                     elif line.startswith("VIAS"):
                         READ_GCELL = False
-                        if reverse:
-                            GCELLY.reverse()
+                        if len(GCELLX) <= 2:
+                            raise ValueError
+                        if int(GCELLX[0][0]) < int(GCELLX[-1][0]):
                             GCELLX.reverse()
+                            GCELLY.reverse()
+
+                        top = GCELLY.pop()
+                        for i in range(top[1]-1):
+                            self.gcell_coordinate_y.append(top[0]+(i+1)*top[2])
                         for i in range(len(GCELLY)):
                             top = GCELLY.pop()
                             for i in range(top[1]):
-                                self.gcell_coordinate_y.append(top[0]+(i+1)*top[2])
+                                self.gcell_coordinate_y.append(self.gcell_coordinate_y[-1]+top[2])
                         self.gcell_coordinate_y.pop()
+                        self.gcell_coordinate_y = np.array(self.gcell_coordinate_y)
+
+
+                        top = GCELLX.pop()
+                        for i in range(top[1]-1):
+                            self.gcell_coordinate_x.append(top[0]+(i+1)*top[2])
                         for i in range(len(GCELLX)):
                             top = GCELLX.pop()
                             for i in range(top[1]):
-                                self.gcell_coordinate_x.append(top[0]+(i+1)*top[2])
+                                self.gcell_coordinate_x.append(self.gcell_coordinate_x[-1]+top[2])
                         self.gcell_coordinate_x.pop()
-                    if READ_GCELL:
+                        self.gcell_coordinate_x = np.array(self.gcell_coordinate_x)
+
+
+                    if READ_GCELL:   # get gcell_coordinate
                         instance = line.split()
                         if not len(instance) == 8:
                             continue
@@ -1088,3 +1145,41 @@ class ReadInnovusOutput:
                     read = True
         save(self.save_path, 'IR_drop/IR_drop', self.save_name, self.ir_map)
         
+
+
+    def get_pin_configuration_map(self):
+        scale = 50.0
+        pin_map_M1 = np.zeros((round(self.gcell_coordinate_x[-1]/scale), round(self.gcell_coordinate_y[-1]/scale)), dtype=np.int8)
+        pin_map_M2 = np.zeros((round(self.gcell_coordinate_x[-1]/scale), round(self.gcell_coordinate_y[-1]/scale)), dtype=np.int8)
+        for v in self.route_instance_dict.values():
+            lef_dict = self.lef_dict_jnet[v[0]]
+            instance_location_on_chip = [v[1][0], v[1][1]]
+            direction = instance_direction_bottom_left(v[2])
+            std_cell_x, std_cell_y = lef_dict['size']
+            instance_location_on_chip[0] += direction[8] * std_cell_x + direction[9] * std_cell_y    #先把坐标转回原本的左下点
+            instance_location_on_chip[1] += direction[10] * std_cell_x + direction[11] * std_cell_y
+
+            for pin_name, pin_data in lef_dict['pin'].items():
+                if pin_name == 'OBS':
+                    continue
+                elif pin_name == 'VDD' or pin_name == 'VSS':
+                    continue
+                for layer, rects in pin_data.items():
+                    if not 'M' in layer:
+                        continue
+                    for pin in rects:
+                        pin_left = instance_location_on_chip[0] + pin[0] * direction[4] + pin[1] * direction[5] + pin[2] * direction[0] + pin[3] * direction[1]
+                        pin_lower = instance_location_on_chip[1] + pin[0] * direction[6] + pin[1] * direction[7] + pin[2] * direction[2] + pin[3] * direction[3]
+                        pin_right = instance_location_on_chip[0] + pin[2] * direction[4] + pin[3] * direction[5] + pin[0] * direction[0] + pin[1] * direction[1]
+                        pin_upper = instance_location_on_chip[1] + pin[2] * direction[6] + pin[3] * direction[7] + pin[0] * direction[2] + pin[1] * direction[3]
+                        pin_left =  int(pin_left/scale-1)
+                        pin_lower = int(pin_lower/scale-1)
+                        pin_right = int(pin_right/scale-1)
+                        pin_upper = int(pin_upper/scale-1)
+                        if layer == 'M1':
+                            pin_map_M1[pin_left:(pin_right+1), pin_lower:(pin_upper+1)] = 1
+                        else:
+                            pin_map_M2[pin_left:(pin_right+1), pin_lower:(pin_upper+1)] = 1
+        save_path = os.path.join(self.save_path, 'pin_configure', self.save_name)
+        os.system("mkdir -p %s " % (os.path.dirname(save_path)))
+        np.savez_compressed(save_path, M1=pin_map_M1, M2=pin_map_M2)
