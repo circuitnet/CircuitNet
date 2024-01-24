@@ -146,7 +146,7 @@ This repository is released under the BSD 3-Clause. license as found in the LICE
 
 ## Citation
 
-If you think our work is useful, please feel free to cite our [paper](https://ieeexplore.ieee.org/document/10158384)😆 .
+If you think our work is useful, please feel free to cite our [TCAD paper](https://ieeexplore.ieee.org/document/10158384)😆 and [ICLR paper](https://openreview.net/forum?id=nMFSUjxMIl).
 
 ```
 @ARTICLE{10158384,
@@ -156,6 +156,16 @@ If you think our work is useful, please feel free to cite our [paper](https://ie
   year={2023},
   doi={10.1109/TCAD.2023.3287970}}
 }
+
+@inproceedings{
+2024circuitnet,
+title={CircuitNet 2.0: An Advanced Dataset for Promoting Machine Learning Innovations in Realistic Chip Design Environment},
+author={Xun, Jiang and Chai, Zhuomin and Zhao, Yuxiang and Lin, Yibo and Wang, Runsheng and Huang, Ru},
+booktitle={The Twelfth International Conference on Learning Representations},
+year={2024},
+url={https://openreview.net/forum?id=nMFSUjxMIl}
+}
+
 ```
 
 ## Contact
