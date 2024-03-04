@@ -95,7 +95,7 @@ def read_lef_pin_map(path, lef_dic, unit):
 
 
 class ReadInnovusOutput:
-    def __init__(self, root_dir, arg, save_name, lef_dict,,lef_dict_jnet=None):
+    def __init__(self, root_dir, arg, save_name, lef_dict, lef_dict_jnet=None):
         self.save_name = save_name
         self.save_path = arg.save_path
         self.unit = arg.unit

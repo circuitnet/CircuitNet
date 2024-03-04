@@ -29,7 +29,7 @@ class Paraser(object):
         self.parser.add_argument('--n_time_window', default='20')                   # number of divided timing windows
         self.parser.add_argument('--scaling', default=None)
 
-def read(read_list, arg, lef_dic):
+def read(read_list, arg, lef_dic, lef_dic_jnet):
 
     for path in read_list:
         path = os.path.join(arg.data_root, path)
@@ -46,7 +46,8 @@ def read(read_list, arg, lef_dic):
 if __name__ == '__main__':
     argp = Paraser()
     arg = argp.parser.parse_args()
-    os.system('mkdir -p %s ' % (os.path.dirname(arg.save_path)))
+    if not os.path.exists(arg.save_path):
+        os.makedirs(arg.save_path)
     lef_dic = {}
     lef_dic_jnet = {}
     for i in arg.lef_path:

@@ -41,12 +41,14 @@ def my_range(start, end):
 
 def save(root_path, dir_name, save_name, data):
     save_path = os.path.join(root_path, dir_name, save_name)
-    os.system("mkdir -p %s " % (os.path.dirname(save_path)))
+    if not os.path.exists(os.path.dirname(save_path)):
+        os.makedirs(os.path.dirname(save_path))
     np.save(save_path, data)
 
 def save_npz(root_path, dir_name, save_name, data):
     save_path = os.path.join(root_path, dir_name, save_name)
-    os.system("mkdir -p %s " % (os.path.dirname(save_path)))
+    if not os.path.exists(os.path.dirname(save_path)):
+        os.makedirs(os.path.dirname(save_path))
     np.savez_compressed(save_path, data)
 
 def divide_list(list, n):
