@@ -651,7 +651,7 @@ class ReadInnovusOutput:
                             self.route_pin_dict[pin]['direction'] = data[6]
                     if READ_NETS:
                         continue
-        route_instance_dict = self.route_instance_dic
+        route_instance_dict = self.route_instance_dict
 
         pin_position_dict = {}
         for cell_name, cell_features in route_instance_dict.items():
