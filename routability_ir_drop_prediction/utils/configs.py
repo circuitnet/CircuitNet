@@ -25,8 +25,8 @@ class Parser(object):
     def get_remainder(self):
         if self.parser.parse_args().task == 'congestion_gpdl':
             self.parser.add_argument('--dataroot', default='../../training_set/congestion')
-            self.parser.add_argument('--ann_file_train', default='./files/train.csv')
-            self.parser.add_argument('--ann_file_test', default='./files/test.csv')
+            self.parser.add_argument('--ann_file_train', default='./files/train_N28.csv')
+            self.parser.add_argument('--ann_file_test', default='./files/test_N28.csv')
             self.parser.add_argument('--dataset_type', default='CongestionDataset')
             self.parser.add_argument('--batch_size', default=16)
             self.parser.add_argument('--aug_pipeline', default=['Flip'])
@@ -41,8 +41,8 @@ class Parser(object):
 
         elif self.parser.parse_args().task == 'drc_routenet':
             self.parser.add_argument('--dataroot', default='../../training_set/DRC')
-            self.parser.add_argument('--ann_file_train', default='./files/train.csv')
-            self.parser.add_argument('--ann_file_test', default='./files/test.csv')
+            self.parser.add_argument('--ann_file_train', default='./files/train_N28.csv')
+            self.parser.add_argument('--ann_file_test', default='./files/test_N28.csv')
             self.parser.add_argument('--dataset_type', default='DRCDataset')
             self.parser.add_argument('--batch_size', default=8)
             self.parser.add_argument('--aug_pipeline', default=['Flip'])
@@ -59,8 +59,8 @@ class Parser(object):
 
         elif self.parser.parse_args().task == 'irdrop_mavi':
             self.parser.add_argument('--dataroot', default='../../training_set/IR_drop')
-            self.parser.add_argument('--ann_file_train', default='./files/train.csv')
-            self.parser.add_argument('--ann_file_test', default='./files/test.csv')
+            self.parser.add_argument('--ann_file_train', default='./files/train_N28.csv')
+            self.parser.add_argument('--ann_file_test', default='./files/test_N28.csv')
             self.parser.add_argument('--dataset_type', default='IRDropDataset')
             self.parser.add_argument('--batch_size', default=2)
 

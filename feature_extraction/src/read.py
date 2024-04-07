@@ -318,9 +318,7 @@ class ReadInnovusOutput:
                     top = GCELLY.pop()
                     for i in range(top[1]):
                         self.gcell_coordinate_y.append(self.gcell_coordinate_y[-1]+top[2])
-                self.gcell_coordinate_y.pop()
                 self.gcell_coordinate_y = np.array(self.gcell_coordinate_y)
-
 
                 top = GCELLX.pop()
                 for i in range(top[1]-1):
@@ -329,9 +327,7 @@ class ReadInnovusOutput:
                     top = GCELLX.pop()
                     for i in range(top[1]):
                         self.gcell_coordinate_x.append(self.gcell_coordinate_x[-1]+top[2])
-                self.gcell_coordinate_x.pop()
                 self.gcell_coordinate_x = np.array(self.gcell_coordinate_x)
-
 
             if READ_GCELL:   # get gcell_coordinate
                 instance = line.split()

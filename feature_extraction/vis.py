@@ -5,7 +5,7 @@ import cv2
 from scipy import ndimage
 from multiprocessing import Process
 from typing import List
-from util import divide_n
+from src.util import divide_n
 
 def get_sub_path(path):
     sub_path = []
@@ -35,7 +35,8 @@ def std(input):
 
 def vis_data(args, path_list):
         feature_save_path = os.path.join(args.save_path)
-        os.system("mkdir -p %s " % (feature_save_path))
+        if not os.path.exists(feature_save_path):
+            os.makedirs(feature_save_path)
         for path in path_list:
             name = os.path.basename(path)
             feature = np.rot90(255 * std(np.load(path)), 1)
