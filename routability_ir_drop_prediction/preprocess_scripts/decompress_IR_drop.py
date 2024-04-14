@@ -5,7 +5,7 @@ t = time.time()
 decompress_path = '../IR_drop_features_decompressed'
 print('Create decompress dir.')
 os.system('mkdir -p %s && rm -rf %s/*' % (decompress_path, decompress_path))
-os.system('cat ../IR_drop_features/power_t.tar.gz*.* > ../IR_drop_features/power_t.tar.gz')
+os.system('cat ../IR_drop_features/power_t*.tar.gz*.* > ../IR_drop_features/power_t.tar.gz')
 
 filelist = os.walk('../IR_drop_features')
 for parent,dirnames,filenames in filelist:
