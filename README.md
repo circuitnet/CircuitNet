@@ -2,7 +2,7 @@
 
 ## Overview
 
-This branch hosts the sample codes for ICISC 2023 Phlexing "Machine Learning driven Static IR drop estimation of SoC power grid network".
+This branch hosts the sample codes for [ICISC 2023 Phlexing "Machine Learning driven Static IR drop estimation of SoC power grid network"](https://edaoss.icisc.cn/file/cacheFile/ae0e578a501d47b6b899bf5a1bfe20d9.pdf).
 
 Use git checkout to switch to this branch.
 
@@ -84,13 +84,13 @@ python train.py --args args/train.json --cpu
 ## Change Log.
 - 2023/11/6
 
-  在/feature_extraction/process_data.py 和 /sample_model_training/test.py 中添加了final_test 这一argument。
+  add final_test argument in /feature_extraction/process_data.py and /sample_model_training/test.py.
 
   final_test=False:
-  之前的测试流程, 使用了static_ir中的instance name信息, 以保证输出的report行数和golden的static_ir相同, 模型测试时可以直接计算metric。
+  The origin test flow, use the instance name in static_ir report to ensure the length of predicted report match the golden report, then the metric can be calculated directly.
         
   final_test=True:
-  最终的测试流程中不提供staitc_ir这个文件, 并且不要求输出的report行数和golden的static_ir相同。此时可以使用power.rpt里的instance name信息，以输出report。模型测试时不直接计算metric，而另外用测试脚本(暂未发布)计算metric。
+  staitc_ir rpt is not provided in the final test, and the predicted report's length does not have to match the golden report. Then the instance name in the power.rpt is used to output the report. A dedicated script will be used to calculate metric.
 
 - 2023/11/3
 
