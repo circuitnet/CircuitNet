@@ -3,6 +3,7 @@
 ## Overview
 
 This branch hosts the sample codes for [ICISC 2023 Phlexing "Machine Learning driven Static IR drop estimation of SoC power grid network"](https://edaoss.icisc.cn/file/cacheFile/ae0e578a501d47b6b899bf5a1bfe20d9.pdf).
+The dataset can be downloaded at [Baidu Netdisk](https://pan.baidu.com/s/1B9Hl2PHJ5f5KW-vpms3Vfw?pwd=75tx).
 
 Use git checkout to switch to this branch.
 
