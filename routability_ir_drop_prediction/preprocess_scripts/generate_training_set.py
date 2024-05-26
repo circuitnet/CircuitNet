@@ -139,7 +139,7 @@ if __name__ == '__main__':
     else:
         raise ValueError('Please specify argument --task from congestion, DRC and IR_drop')
 
-    name_list = get_sub_path(os.path.join(args.data_path, feature_list[0]))
+    name_list = get_sub_path(os.path.join(args.data_path, feature_list[-1]))
     print('processing %s files' % len(name_list))
     save_path = os.path.join(args.save_path, args.task)
 
