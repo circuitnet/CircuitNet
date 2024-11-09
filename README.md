@@ -12,6 +12,15 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 ## ChangeLog
 
+- 2024/11/09
+
+  Re-upload LEF/DEF, netlist and graph information to fix issue #38.
+
+  Add demo for building graph with the graph_information in the dataset [here](https://github.com/circuitnet/CircuitNet/tree/main/feature_extraction).
+  
+  Add section FAQ on web page.
+
+
 - 2023/7/24
 
   Code for feature extraction released. Users can use it to implement self-defined features with the LEF/DEF we released or extract features with LEF/DEF from other sources. Read the [REAME](https://github.com/circuitnet/CircuitNet/blob/main/feature_extraction/README.md) for more information.
@@ -31,15 +40,15 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
   LEF/DEF is updated to include tech information (sanitized). Each tarfile contains 500 DEF files and can be decompressed separately. We also provide example DEF files.
   
-  Congestion features and graph features generated from ISPD2015 benchmark are available in the ISPD2015 dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
+  Congestion features and graph features generated from ISPD2015 benchmark are available in the ISPD2015 dir.
   
 - 2022/12/29 
 
-  LEF/DEF (sanitized) are available in the LEF&DEF dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
+  LEF/DEF (sanitized) are available in the LEF&DEF dir.
 
 - 2022/12/12 
 
-  Graph features are available in the graph_features dir in [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) and [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
+  Graph features are available in the graph_features dir.
 
 - 2022/9/6 
 
@@ -71,6 +80,12 @@ Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work b
 ### Data Preparation
 
 Please follow the instructions on the [download page](https://circuitnet.github.io/intro/download.html) to set up the CircuitNet dataset for a specific task(Congestion/DRC/IR Drop).
+
+Dataset download links: 
+
+[Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) 
+
+[Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
 
 ### Example Usage:
 
