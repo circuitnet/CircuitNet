@@ -96,7 +96,7 @@ def train(model, args):
                     )
                     )
 
-            if e == 0 or e % 200 == 199 or (e > 6000 and test_loss_tot_ats_prop / len(data_test) < 6):
+            if e == 0 or e % 200 == 199 or (e > 6000 and test_loss_tot_net_delays / len(data_test) < 6):
                 if args.checkpoint:
                     save_path = './checkpoints/{}/{}.pth'.format(args.checkpoint, e)
                     torch.save(model.state_dict(), save_path)
