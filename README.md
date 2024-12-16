@@ -16,9 +16,11 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
   Re-upload LEF/DEF, netlist and graph information to fix issue #38.
 
-  Add demo for building graph with the graph_information in the dataset [here](https://github.com/circuitnet/CircuitNet/tree/main/feature_extraction).
+  Add demo for building graph with the graph_information in the dataset [here](https://github.com/circuitnet/CircuitNet/tree/main/build_graph_demo).
   
   Add section FAQ on web page.
+
+  *Known issue(2024/12/16)*: some instance names in the DEF are wrong. The DEF will be re-upload later. A fixing script is uploaded [here](https://github.com/circuitnet/CircuitNet/tree/main/feature_extraction/fix_module_name_241216.py), and can be used to fix the issue in-situ. 
 
 
 - 2023/7/24
