@@ -805,7 +805,7 @@ class ReadInnovusOutput:
                 instance_location_on_chip = [0, 0]
 
                 if cell_pin_pair[0] == 'PIN':
-                    pin_left, pin_right, pin_lower, pin_upper = self.place_pin_dict[cell_pin_pair[1]]
+                    pin_left, pin_lower, pin_right, pin_upper = self.place_pin_dict[cell_pin_pair[1]]
                 else:
                     cell_name = cell_pin_pair[0]
                     pin_name = cell_pin_pair[1]
