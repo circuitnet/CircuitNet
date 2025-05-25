@@ -12,7 +12,7 @@ class Parser(object):
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('--task', default='congestion_gpdl')
 
-        self.parser.add_argument('--save_path', default='work_dir/congestion_gpdl/')
+        self.parser.add_argument('--save_path', default='./congestion_gpdl/')
     
         self.parser.add_argument('--pretrained', default=None)
 

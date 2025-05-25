@@ -16,7 +16,8 @@ import csv
 from sklearn.metrics import accuracy_score, roc_curve, confusion_matrix
 from scipy.interpolate import make_interp_spline
 from functools import partial
-from mmcv import scandir
+# from mmcv import scandir
+from mmengine.utils.path import scandir
 
 from scipy.stats import wasserstein_distance
 from skimage.metrics import normalized_root_mse

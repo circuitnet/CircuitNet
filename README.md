@@ -1,5 +1,116 @@
 # CircuitNet: An Open-Source Dataset for Machine Learning Applications in Electronic Design Automation (EDA)
 
+## 适配50系显卡
+
+首先确保安装好`nvidia-driver`和`cuda`，可以使用以下命令安装最新的`nvidia-driver`和`cuda`
+
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/12.9.0/local_installers/cuda_12.9.0_575.51.03_linux.run
+sudo sh cuda_12.9.0_575.51.03_linux.run
+```
+
+通过`nvidia-smi`命令和`nvcc -V`命令检查是否安装成功
+
+然后安装`anaconda`，可以使用以下命令安装最新的`anaconda`
+
+```bash
+wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
+bash Anaconda3-2024.10-1-Linux-x86_64.sh
+```
+
+创建`python=3.9`的conda虚拟环境，并激活
+
+```bash
+conda create -n circuitnet python=3.9
+conda activate circuitnet
+```
+
+然后安装`pytorch`和`torchvision`，我使用的版本是`torch=2.7.0`，支持50系显卡。
+
+```bash
+conda install pip
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+```
+
+接着拷贝当前项目，并安装除了`mmcv`以外的依赖（我已经在`requirements.txt`中注释了`mmcv`）
+
+```bash
+git clone -b congestion git@github.com:LHaiC/CircuitNet.git
+cd CircuitNet
+pip install -r requirements.txt
+```
+
+最后安装`mmcv`，可以使用以下命令安装最新的`mmcv`
+
+```bash
+pip install -U openmim
+mim install mmcv=2.2.0
+```
+
+不过我用这个命令安装`mmcv`时报错了，所以我选择手动编译
+
+```bash
+git clone https://github.com/open-mmlab/mmcv.git
+cd mmcv
+pip install -r requirements/optional.txt
+pip install -e . -v
+```
+
+编译完成后通过`python .dev_scripts/check_installation.py`命令检查是否安装成功，得到如下输出，说明安装成功
+
+```bash
+Start checking the installation of mmcv ...
+CPU ops were compiled successfully.
+CUDA ops were compiled successfully.
+mmcv has been installed successfully.
+
+Environment information:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.9.21 (main, Dec 11 2024, 16:24:11) [GCC 11.2.0]
+CUDA available: True
+MUSA available: False
+numpy_random_seed: 2147483648
+GPU 0: NVIDIA GeForce RTX 5070 Ti
+CUDA_HOME: /usr/local/cuda-12.9
+NVCC: Cuda compilation tools, release 12.9, V12.9.41
+GCC: gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+PyTorch: 2.7.0+cu128
+PyTorch compiling details: PyTorch built with:
+  - GCC 11.2
+  - C++ Version: 201703
+  - Intel(R) oneAPI Math Kernel Library Version 2024.2-Product Build 20240605 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.7.1 (Git Hash 8d263e693366ef8db40acc569cc7d8edf644556d)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX512
+  - CUDA Runtime 12.8
+  - NVCC architecture flags: -gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90;-gencode;arch=compute_100,code=sm_100;-gencode;arch=compute_120,code=sm_120;-gencode;arch=compute_120,code=compute_120
+  - CuDNN 90.7.1
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, COMMIT_SHA=134179474539648ba7dee1317959529fbd0e7f89, CUDA_VERSION=12.8, CUDNN_VERSION=9.7.1, CXX_COMPILER=/opt/rh/gcc-toolset-11/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=1 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, TORCH_VERSION=2.7.0, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=1, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF,
+
+TorchVision: 0.22.0+cu128
+OpenCV: 4.6.0
+MMEngine: 0.10.7
+MMCV: 2.2.0
+MMCV Compiler: GCC 13.3
+MMCV CUDA Compiler: 12.9
+------------------------------------------------------------
+```
+
+最后回到`CircuitNet/routability_ir_drop_prediction`目录下，运行`python test.py`命令测试是否安装成功，得到如下输出，说明安装成功
+
+```bash
+===> Loading datasets
+===> Building model
+100%|███████████████████████████████████████████████████████████████████████████████| 3164/3164 [03:30<00:00, 15.04it/s]
+===> Avg. NRMS: 0.3853
+===> Avg. SSIM: 0.2888
+===> Avg. EMD: 0.0052
+```
+
 ## Overview
 
 This repository is intended to hosts codes and demos for CircuitNet, we hope this codebase would be helpful for users to reproduce exiting methods. More information about the dataset can be accessed from our web page [https://circuitnet.github.io/](https://circuitnet.github.io/).

@@ -3,8 +3,10 @@
 import torch
 import torch.nn as nn
 
-from mmcv.cnn import constant_init, kaiming_init
-from mmcv.utils.parrots_wrapper import _BatchNorm
+# from mmcv.cnn import constant_init, kaiming_init
+# from mmcv.utils.parrots_wrapper import _BatchNorm
+from mmengine.model.weight_init import constant_init, kaiming_init
+from torch.nn.modules.batchnorm import _BatchNorm
 
 import torch
 import torch.nn as nn
