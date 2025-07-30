@@ -1,5 +1,9 @@
 # CircuitNet: An Open-Source Dataset for Machine Learning Applications in Electronic Design Automation (EDA)
 
+北京大学《电子信息学中的机器学习》2025年课程大作业代码，借助AI完成，仅供参考。
+
+大作业文件在[course_project_congestion](course_project_congestion/)目录下，内有代码与[报告](course_project_congestion/report.pdf)。
+
 ## 适配50系显卡
 
 首先确保安装好`nvidia-driver`和`cuda`，可以使用以下命令安装最新的`nvidia-driver`和`cuda`
