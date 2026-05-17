@@ -12,6 +12,11 @@ This repository is intended to hosts codes and demos for CircuitNet, we hope thi
 
 ## ChangeLog
 
+- 2026/05/17
+
+  Released CircuitNet 3.0 with N45 PDK!
+
+
 - 2024/11/09
 
   Re-upload LEF/DEF, netlist and graph information to fix issue #38.
