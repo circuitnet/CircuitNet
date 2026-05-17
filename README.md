@@ -88,16 +88,19 @@ Our experiments run on Python 3.9 and PyTorch 1.11. Other versions should work b
 
 Please follow the instructions on the [download page](https://circuitnet.github.io/intro/download.html) to set up the CircuitNet dataset for a specific task(Congestion/DRC/IR Drop).
 
-CircuitNet-N28 download links: 
+CircuitNet-N28 (V1.0) download links: 
 
 [Google Drive](https://drive.google.com/drive/u/1/folders/1GjW-1LBx1563bg3pHQGvhcEyK2A9sYUB) 
 
 [Baidu Netdisk](https://pan.baidu.com/s/1udXVZnfjqniH9paKfyc2eQ?pwd=ijdh).
 
-CircuitNet-N14 is currently maintained on Hugging Face and the download link is as follows:
+CircuitNet-N14 (v2.0) is currently maintained on Hugging Face and the download link is as follows:
 
 [Hugging Face](https://huggingface.co/datasets/CircuitNet/CircuitNet/tree/main).
 
+CircuitNet-N45 (v3.0) is currently maintained on Hugging Face and the download link is as follows:
+
+[Hugging Face](https://huggingface.co/datasets/SKLP-EDA-LAB/CircuitNet3.0).
 
 ### Example Usage:
 
